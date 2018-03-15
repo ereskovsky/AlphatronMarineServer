@@ -1,25 +1,21 @@
-﻿using System;
+﻿using AlphatronMarineServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AlphatronMarineServer.Models;
 
 namespace AlphatronMarineServer.Controllers
 {
-    public class HomeController : Controller
+    public class CRUDController : Controller
     {
         AlphatronMarineEntities db = new AlphatronMarineEntities();
-        public ActionResult Index()
+        // GET: CRUD
+        public ActionResult FleetTemplate()
         {
-            return View();
-        }
+            ViewBag.Countries = db.Country;
 
-        public ActionResult Fleet()
-        {
-            ViewBag.Vessels = db.Vessel;
             return View();
         }
-        
     }
 }

@@ -4,6 +4,18 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <script src="~/Scripts/jquery-3.2.1.js"></script>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/font-awesome/css/font-awesome.css")
+    @Styles.Render("~/Content/inspinia.css")
+    @Styles.Render("~/Content/footable.core.css")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/footable.all.min.js")
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/datepicker3.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/summernote.min.js"></script>
 </head>
 <body style="background-color: #2f4050">
     <div style="height: 100%" id="wrapper">
@@ -13,79 +25,45 @@
                     <li class="nav-header">
                         <div class="dropdown profile-element">
                             <span>
-                                <img alt="image" class="img-circle" src="~/Content/images/admin-button-icon-hi.png" />
+                                <img style="height: 30px" alt="image" class="img-circle" src="/Content/images/adminpic.png">
                             </span>
-
-                            <span class="clear">
-                                <span class="block m-t-xs">
-                                    <b class="font-bold" style="color: white">@ViewBag.User</b>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs">
+                                        <strong class="font-bold">David Williams</strong>
+                                    </span> <span class="text-muted text-xs block">Art Director </span>
                                 </span>
-                            </span>
+                            </a>
+                            
+                        </div>
 
 
 
                     </li>
                     @if (ViewBag.Part == "Main")
-                    {
-                        <li class="active">
-                            <a href="~/Admin"><i class="glyphicon glyphicon-home"></i> <span class="nav-label">Главная</span></a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="~/Admin"><i class="glyphicon glyphicon-home"></i> <span class="nav-label">Главная</span></a>
-                        </li>
-                    }
-                    @if (ViewBag.Part == "Countries")
-                    {
-                        <li class="active">
-                            <a href="~/Admin/Countries"><i class=" fa fa-globe"></i> <span class="nav-label">Страны</span></a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="~/Admin/Countries"><i class=" fa fa-globe"></i> <span class="nav-label">Страны</span></a>
-                        </li>
-                    }
-                    @if (ViewBag.Part == "Tags")
-                    {
-                        <li class="active">
-                            <a href="~/Admin/StoryTags"><i class="fa fa-slack"></i> <span class="nav-label">Теги историй</span></a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="~/Admin/StoryTags"><i class="fa fa-slack"></i> <span class="nav-label">Теги историй</span></a>
-                        </li>}
-                    @*@if (ViewBag.Part == "Images")
-                            {
-                                        <li class="active">
-                                            <a href="~/Admin/Images"><i class="fa fa-slack"></i> <span class="nav-label">Лучшие картинки</span></a>
-                                        </li>
-                        }
-                        else
-                        {
-                                        <li>
-                                            <a href="~/Admin/Images"><i class="fa fa-slack"></i> <span class="nav-label">Лучшие картинки</span></a>
-                                        </li>}*@
-
-
-                    @if (ViewBag.Part == "Users")
-                    {
-                        <li class="active">
-                            <a href="~/Admin/Users"><i class="fa fa-group"></i> <span class="nav-label">Администраторы</span></a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="~/Admin/Users"><i class="fa fa-group"></i> <span class="nav-label">Администраторы</span></a>
-                        </li>
-                    }
-
+    {
+                <li class="active">
+                    <a href="~/"><i class="glyphicon glyphicon-home"></i> <span class="nav-label">Main</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/"><i class="glyphicon glyphicon-home"></i> <span class="nav-label">Main</span></a>
+                </li>
+}
+                    @if (ViewBag.Part == "Fleet")
+    {
+                <li class="active">
+                    <a href="~/Fleet"><i class="fa fa-tachometer"></i> <span class="nav-label">Fleet</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/Fleet"><i class="fa fa-tachometer"></i> <span class="nav-label">Fleet</span></a>
+                </li>
+}
                 </ul>
             </div>
         </nav>
@@ -98,7 +76,7 @@
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
                             <a href="~/Admin/Logout">
-                                <i class="fa fa-sign-out"></i> Выйти
+                                <i class="fa fa-sign-out"></i> Logout
                             </a>
                         </li>
                     </ul>
@@ -109,12 +87,7 @@
 
     </div>
     <div class="footer">
-        <div class="pull-right">
-            zabotkins.ru
-        </div>
-        <div>
-            <strong>Разработано</strong>  ⓒ 2017 <a href="http://www.schander-dev.art">SchAndEr </a>
-        </div>
+        
     </div>
 
 
