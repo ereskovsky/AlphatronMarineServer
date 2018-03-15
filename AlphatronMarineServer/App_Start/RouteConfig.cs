@@ -15,8 +15,13 @@ namespace AlphatronMarineServer
             
             routes.MapRoute(
                 name: "Default",
-                url: "{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{action}",
+                defaults: new { controller = "Home", action = "Index"}
+            );
+            routes.MapRoute(
+                name: "FleetTemplate",
+                url: "Vessel/{id}",
+                defaults: new { controller = "CRUD", action = "VesselTemplate", id = UrlParameter.Optional }
             );
         }
     }

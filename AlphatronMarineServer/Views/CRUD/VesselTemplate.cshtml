@@ -50,36 +50,37 @@
                             <div class="col-sm-5"><input type="text" name="CallSign" class="form-control" value="@Model.CallSign"></div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">GrossTonnage</label>
+                            <label class="col-sm-2 control-label">Gross Tonnage</label>
 
                             <div class="col-sm-5"><input type="text" name="GrossTonnage" class="form-control" value="@Model.GrossTonnage"></div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-5"><input type="text" maxlength="2" name="Class" class="form-control" value="@Model.Class"></div>
+                            <label class="col-sm-2 control-label">Class</label>
+
+                            <div class="col-sm-5"><input type="text" name="Class" class="form-control" value="@Model.Class"></div>
                         </div>
-                        <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Country</label>
                             <div class="col-sm-5">
                                 <select class="form-control m-b" name="Flag">
                                     @if (Model.Flag != 0)
-                {
-                    <option value="@Model.Flag">@Model.Country.Name</option>
-}
+                                       {
+                                            <option value="@Model.Flag">@Model.Country.Name</option>
+                                       }
 
-                                    @foreach (var item in ViewBag.Countries)
+                                     @foreach (var item in ViewBag.Countries)
 
-                {
+                                       {
 
-                    <option value="@item.ID">@item.Name</option>
-}
+                                         <option value="@item.ID">@item.Name</option>
+                                       }
                                 </select>
 
                             </div>
                         </div>
 
-                        <a href="~/Admin/Countries" style="text-decoration: none; color: #676a6c"><button class="btn btn-white" type="button">Выйти</button></a>
-                        <button class="btn btn-primary" type="submit">Сохранить</button>
+                        <a href="~/Fleet" style="text-decoration: none; color: #676a6c"><button class="btn btn-white" type="button">Back</button></a>
+                        <button class="btn btn-primary" type="submit">Save</button>
                     </form>
                 </div>
             </div>

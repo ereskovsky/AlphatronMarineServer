@@ -5,7 +5,7 @@
         <h2>FooTable</h2>
         <ol class="breadcrumb">
             <li>
-                <a href="index.html">Home</a>
+                <a href="~/">Home</a>
             </li>
             <li>
                 <a>Tables</a>
@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-2">
         <div class="ibox-title" style="border: none; padding: 28px 15px 7px">
-            <a class="btn btn-primary " href="~/Fleet/0">Add Vessel</a>
+            <a class="btn btn-primary " href="~/Vessel/0">Add Vessel</a>
         </div>
     </div>
 </div>
@@ -74,10 +74,10 @@
                                     <td>@item.Class</td>
                                     <td>@item.MMSI</td>
                                     <td>@item.GrossTonnage</td>
-                                    <td>@item.Flag</td>
+                                    <td><img src="/Content/images/flags/@item.Country.Flag32"/></td>
                                     <td>
-                                        <a href="~/Fleet/@item.IMO"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                        <a id="del" href="~/Fleet/@item.IMO/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                        <a href="~/Vessel/@item.IMO"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
+                                        <a id="del" href="~/Vessel/@item.IMO/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
                                     </td>
                                 </tr>
                             }
