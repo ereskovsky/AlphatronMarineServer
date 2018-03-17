@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "C:\Users\Антон\source\repos\AlphatronMarineServer\AlphatronMarineServer\Models\AlphatronModel.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\Антон Ересковский\Source\Repos\AlphatronMarineServer\AlphatronMarineServer\Models\AlphatronModel.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.

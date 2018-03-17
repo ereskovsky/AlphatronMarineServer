@@ -18,6 +18,7 @@ namespace AlphatronMarineServer.Models
         public Company()
         {
             this.User = new HashSet<User>();
+            this.Vessel = new HashSet<Vessel>();
         }
     
         public int ID { get; set; }
@@ -25,5 +26,7 @@ namespace AlphatronMarineServer.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> User { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Vessel> Vessel { get; set; }
     }
 }

@@ -31,6 +31,7 @@ namespace AlphatronMarineServer.Models
         public Nullable<int> Flag { get; set; }
         public Nullable<int> CompanyID { get; set; }
     
+        public virtual Company Company { get; set; }
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipment { get; set; }

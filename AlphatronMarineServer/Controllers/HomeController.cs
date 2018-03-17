@@ -9,17 +9,51 @@ namespace AlphatronMarineServer.Controllers
 {
     public class HomeController : Controller
     {
+        AuthController auth = new AuthController();
         AlphatronMarineEntities db = new AlphatronMarineEntities();
         public ActionResult Index()
         {
-            return View();
+            HttpCookie cookie = Request.Cookies["User"];
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(cookie))
+            {
+                
+                ViewBag.Part = "Main";
+                return View();
+            }
+            else
+                return Redirect("~/Login");
         }
 
         public ActionResult Fleet()
         {
-            ViewBag.Vessels = db.Vessel;
-            return View();
+            HttpCookie cookie = Request.Cookies["User"];
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(cookie))
+            {
+                ViewBag.Part = "Fleet";
+                ViewBag.Vessels = db.Vessel;
+                return View();
+            }
+            else
+                return Redirect("~/Login");
         }
-        
+        public ActionResult Users()
+        {
+                HttpCookie cookie = Request.Cookies["User"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                if (auth.CheckAuthStatus(cookie))
+                {
+                    ViewBag.Part = "Users";
+                    ViewBag.Users = db.User;
+                    return View();
+                    }
+                else
+                    return Redirect("~/Login");
+        }
+
     }
 }

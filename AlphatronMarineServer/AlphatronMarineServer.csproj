@@ -150,6 +150,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CRUDController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -188,6 +189,7 @@
     <Compile Include="Models\General.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MD5Hasher.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
@@ -793,6 +795,7 @@
     <Content Include="Models\AlphatronModel.edmx.diagram">
       <DependentUpon>AlphatronModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\custombox.min.js" />
@@ -839,6 +842,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\CRUD\VesselTemplate.cshtml" />
     <Content Include="Views\Home\Fleet.cshtml" />
+    <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="Views\Home\Users.cshtml" />
+    <Content Include="Views\CRUD\UserTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

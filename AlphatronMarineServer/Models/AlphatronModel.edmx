@@ -174,6 +174,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Vessel_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Vessel" Type="Self.Vessel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vessel">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vessel_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="Vessel" Type="Self.Vessel" Multiplicity="*" />
@@ -239,6 +251,10 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
+          <AssociationSet Name="FK_Vessel_Company" Association="Self.FK_Vessel_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Vessel" EntitySet="Vessel" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vessel_Country" Association="Self.FK_Vessel_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Vessel" EntitySet="Vessel" />
@@ -287,6 +303,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Company" FromRole="Company" ToRole="User" />
+          <NavigationProperty Name="Vessel" Relationship="Self.FK_Vessel_Company" FromRole="Company" ToRole="Vessel" />
         </EntityType>
         <EntityType Name="Country">
           <Key>
@@ -378,6 +395,7 @@
           <Property Name="GrossTonnage" Type="Int32" />
           <Property Name="Flag" Type="Int32" />
           <Property Name="CompanyID" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Vessel_Company" FromRole="Vessel" ToRole="Company" />
           <NavigationProperty Name="Country" Relationship="Self.FK_Vessel_Country" FromRole="Vessel" ToRole="Country" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_Vessel" FromRole="Vessel" ToRole="Equipment" />
           <NavigationProperty Name="VesselAccess" Relationship="Self.FK_VesselAccess_Vessel" FromRole="Vessel" ToRole="VesselAccess" />
@@ -400,6 +418,18 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="User">
+              <PropertyRef Name="CompanyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vessel_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="0..1" />
+          <End Role="Vessel" Type="Self.Vessel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Vessel">
               <PropertyRef Name="CompanyID" />
             </Dependent>
           </ReferentialConstraint>
@@ -492,6 +522,10 @@
           <AssociationSet Name="FK_User_Company" Association="Self.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vessel_Company" Association="Self.FK_Vessel_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Vessel" EntitySet="Vessel" />
           </AssociationSet>
           <AssociationSet Name="FK_Vessel_Country" Association="Self.FK_Vessel_Country">
             <End Role="Country" EntitySet="Country" />

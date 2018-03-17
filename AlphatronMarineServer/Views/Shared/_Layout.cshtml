@@ -30,11 +30,11 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs">
-                                        <strong class="font-bold">David Williams</strong>
-                                    </span> <span class="text-muted text-xs block">Art Director </span>
+                                        <strong class="font-bold">@ViewBag.User</strong>
+                                    </span> <span class="text-muted text-xs block">@ViewBag.Role </span>
                                 </span>
                             </a>
-                            
+
                         </div>
 
 
@@ -62,6 +62,18 @@ else
 {
                 <li>
                     <a href="~/Fleet"><i class="fa fa-tachometer"></i> <span class="nav-label">Fleet</span></a>
+                </li>
+}
+                    @if (ViewBag.Part == "Users")
+    {
+                <li class="active">
+                    <a href="~/Users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/Users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
                 </li>
 }
                 </ul>
