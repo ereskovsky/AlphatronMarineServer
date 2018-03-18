@@ -12,6 +12,7 @@ namespace AlphatronMarineServer
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //Auth
             routes.MapRoute(
                 name: "Login",
                 url: "Login",
@@ -27,11 +28,15 @@ namespace AlphatronMarineServer
                 url: "Authorize",
                 defaults: new { controller = "Auth", action = "Authorize" }
             );
+
+            //RoteTemplate
             routes.MapRoute(
                 name: "Default",
                 url: "{action}",
                 defaults: new { controller = "Home", action = "Index"}
             );
+
+            //Vessels
             routes.MapRoute(
                 name: "VesselTemplate",
                 url: "Vessel/{id}",
@@ -42,6 +47,32 @@ namespace AlphatronMarineServer
                 url: "Vessel/{id}/del",
                 defaults: new { controller = "CRUD", action = "VesselDelete", id = UrlParameter.Optional }
             );
+
+            //Equipment
+            routes.MapRoute(
+                name: "EquipTemplate",
+                url: "Equipment/{id}",
+                defaults: new { controller = "CRUD", action = "EquipmentTemplate", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "EquipDelete",
+                url: "Equipment/{id}/del",
+                defaults: new { controller = "CRUD", action = "EquipmentDelete", id = UrlParameter.Optional }
+            );
+
+            //Companies
+            routes.MapRoute(
+                name: "CompanyTemplate",
+                url: "Company/{id}",
+                defaults: new { controller = "CRUD", action = "CompanyTemplate", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "CompanyDelete",
+                url: "Company/{id}/del",
+                defaults: new { controller = "CRUD", action = "CompanyDelete", id = UrlParameter.Optional }
+            );
+
+            //Users
             routes.MapRoute(
                 name: "UserTemplate",
                 url: "User/{id}",
@@ -52,6 +83,8 @@ namespace AlphatronMarineServer
                 url: "User/{id}/del",
                 defaults: new { controller = "CRUD", action = "UserDelete", id = UrlParameter.Optional }
             );
+
+            
         }
     }
 }

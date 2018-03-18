@@ -64,6 +64,18 @@ else
                     <a href="~/Fleet"><i class="fa fa-tachometer"></i> <span class="nav-label">Fleet</span></a>
                 </li>
 }
+                    @if (ViewBag.Part == "Equipment")
+    {
+                <li class="active">
+                    <a href="~/Equipment"><i class="fa fa-anchor"></i> <span class="nav-label">Equipment</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/Equipment"><i class="fa fa-anchor"></i> <span class="nav-label">Equipment</span></a>
+                </li>
+}
                     @if (ViewBag.Part == "Users")
     {
                 <li class="active">
@@ -76,6 +88,7 @@ else
                     <a href="~/Users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
                 </li>
 }
+
                 </ul>
             </div>
         </nav>
@@ -99,11 +112,19 @@ else
 
     </div>
     <div class="footer">
-        
+
     </div>
 
 
+    <script>
+        $(document).ready(function () {
 
+            $('.footable').footable();
+            $('.footable2').footable();
+
+        });
+
+    </script>
 </body>
 
 </html>

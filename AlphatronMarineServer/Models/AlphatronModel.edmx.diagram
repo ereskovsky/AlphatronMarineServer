@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="842469924ef443278fa570bbec808cc2" Name="Diagram1">
+      <Diagram DiagramId="f6d47ec6a4f14bfba2abe0a60233bada" Name="Diagram1">
         <EntityTypeShape EntityType="AlphatronModel.Auth" Width="1.5" PointX="5.75" PointY="9.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AlphatronModel.BusinessLocation" Width="1.5" PointX="7.75" PointY="9.5" IsExpanded="true" />
         <EntityTypeShape EntityType="AlphatronModel.Company" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />

@@ -55,7 +55,7 @@
           <Key>
             <PropertyRef Name="SerialNumber" />
           </Key>
-          <Property Name="SerialNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNumber" Type="int" Nullable="false" />
           <Property Name="Model" Type="varchar" MaxLength="255" />
           <Property Name="Maker" Type="varchar" MaxLength="255" />
           <Property Name="Remarks" Type="varchar" MaxLength="255" />
@@ -326,7 +326,7 @@
           <Key>
             <PropertyRef Name="SerialNumber" />
           </Key>
-          <Property Name="SerialNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SerialNumber" Type="Int32" Nullable="false" />
           <Property Name="Model" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Maker" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />

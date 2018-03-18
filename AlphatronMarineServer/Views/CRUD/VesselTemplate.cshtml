@@ -26,7 +26,16 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">IMO</label>
 
-                            <div class="col-sm-5"><input type="text" name="IMO" class="form-control" value="@Model.IMO"></div>
+                            <div class="col-sm-5">
+                                @if (ViewBag.VID == 0)
+    {
+                            <input type="text" name="IMO" class="form-control" value="@Model.IMO">
+}
+else
+{
+                            <input type="text" disabled name="IMO" class="form-control" value="@Model.IMO">
+}
+                            </div>
                         </div>
 
                         <div class="form-group">

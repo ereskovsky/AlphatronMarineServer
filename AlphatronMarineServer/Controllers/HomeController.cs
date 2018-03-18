@@ -14,11 +14,11 @@ namespace AlphatronMarineServer.Controllers
         public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["User"];
-            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
-            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            string trying = ApiModel.GetVesselByIMO(9241061);
             if (auth.CheckAuthStatus(cookie))
             {
-                
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.Part = "Main";
                 return View();
             }
@@ -29,10 +29,11 @@ namespace AlphatronMarineServer.Controllers
         public ActionResult Fleet()
         {
             HttpCookie cookie = Request.Cookies["User"];
-            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
-            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            
             if (auth.CheckAuthStatus(cookie))
             {
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.Part = "Fleet";
                 ViewBag.Vessels = db.Vessel;
                 return View();
@@ -43,16 +44,32 @@ namespace AlphatronMarineServer.Controllers
         public ActionResult Users()
         {
                 HttpCookie cookie = Request.Cookies["User"];
-                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
-                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                
                 if (auth.CheckAuthStatus(cookie))
                 {
-                    ViewBag.Part = "Users";
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.Part = "Users";
                     ViewBag.Users = db.User;
                     return View();
                     }
                 else
                     return Redirect("~/Login");
+        }
+        public ActionResult Equipment()
+        {
+            HttpCookie cookie = Request.Cookies["User"];
+
+            if (auth.CheckAuthStatus(cookie))
+            {
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.Part = "Equipment";
+                ViewBag.Equipment = db.Equipment;
+                return View();
+            }
+            else
+                return Redirect("~/Login");
         }
 
     }
