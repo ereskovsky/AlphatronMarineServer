@@ -9,9 +9,11 @@
 
 namespace AlphatronMarineServer.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
     public partial class Country
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -31,7 +33,9 @@ namespace AlphatronMarineServer.Models
         public decimal Latitude { get; set; }
         public decimal Longtitude { get; set; }
         public int Zoom { get; set; }
-    
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Vessel> Vessel { get; set; }
     }

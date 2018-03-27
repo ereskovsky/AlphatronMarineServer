@@ -1,0 +1,86 @@
+﻿@model AlphatronMarineServer.Models.Equipment
+@{
+
+}
+<link href="~/Content/daterangepicker-bs3.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<div style="margin: 0px" class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>Vessel</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="~/">Main</a>
+            </li>
+            <li class="active">
+                <strong>Add or Change Equipment</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form autocomplete="off" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Serial Number</label>
+
+                            <div class="col-sm-5">
+                                @if (ViewBag.EID == 0)
+    {
+                            <input type="text" name="SerialNumber" class="form-control" value="@Model.SerialNumber">
+}
+else
+{
+                            <input type="text" disabled name="SerialNumber" class="form-control" value="@Model.SerialNumber">
+}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Maker</label>
+
+                            <div class="col-sm-5"><input type="text" name="Maker" class="form-control" value="@Model.Maker"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Model</label>
+
+                            <div class="col-sm-5"><input type="text" name="Model" class="form-control" value="@Model.Model"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Remarks</label>
+
+                            <div class="col-sm-5"><input type="text" name="Remarks" class="form-control" value="@Model.Remarks"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Vessel</label>
+                            <div class="col-sm-5">
+                                <select class="form-control m-b" name="VesselIMO">
+                                    @if (Model.Vessel != null)
+                {
+                    <option value="@Model.VesselIMO">@Model.Vessel.IMO  - @Model.Vessel.Name</option>
+}
+
+                                    @foreach (var item in ViewBag.Vessels)
+
+                {
+
+                    <option value="@item.IMO">@item.IMO - @item.Name</option>
+}
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                        <a href="~/Equipment" style="text-decoration: none; color: #676a6c"><button class="btn btn-white" type="button">Back</button></a>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

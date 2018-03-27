@@ -9,9 +9,11 @@
 
 namespace AlphatronMarineServer.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
     public partial class Equipment
     {
         public int SerialNumber { get; set; }
@@ -19,7 +21,9 @@ namespace AlphatronMarineServer.Models
         public string Maker { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> VesselIMO { get; set; }
-    
+
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual Vessel Vessel { get; set; }
     }
 }
