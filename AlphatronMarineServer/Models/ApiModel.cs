@@ -31,6 +31,13 @@ namespace AlphatronMarineServer.Models
             return encoded;
 
         }
+        public static string GetEquipmentByIMO(int imo)
+        {
+            var c = db.Vessel.Find(imo);
+            var encoded = JsonConvert.SerializeObject(c.Equipment);
+            return encoded;
+
+        }
 
     }
 }

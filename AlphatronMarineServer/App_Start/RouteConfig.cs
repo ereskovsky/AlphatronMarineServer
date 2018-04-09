@@ -12,6 +12,12 @@ namespace AlphatronMarineServer
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            //API
+            routes.MapRoute(
+                name: "APIVessels",
+                url: "API/{action}/{id}",
+                defaults: new { controller = "API", action = "Vessels", id = UrlParameter.Optional }
+            );
             //Auth
             routes.MapRoute(
                 name: "Login",
@@ -84,7 +90,10 @@ namespace AlphatronMarineServer
                 defaults: new { controller = "CRUD", action = "UserDelete", id = UrlParameter.Optional }
             );
 
+
+
             
+
         }
     }
 }
