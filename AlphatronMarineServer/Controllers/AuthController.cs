@@ -17,7 +17,8 @@ namespace AlphatronMarineServer.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if (CheckAuthStatus(Request.Cookies["User"]))
+            HttpCookie cookie = Request.Cookies["User"];
+            if (CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
 
                 return Redirect("~/Index");
@@ -66,14 +67,14 @@ namespace AlphatronMarineServer.Controllers
                 return false;
         }
 
-        public bool CheckAuthStatus(HttpCookie cookie)
+        public bool CheckAuthStatus(int id, string token)
         {
             int user_id;
-            string token;
-            if (cookie != null)
+            string token_;
+            if (id != 0 && token != null)
             {
-                user_id = int.Parse(cookie["id"]);
-                token = cookie["token"];
+                user_id = id;
+                token_ = token;
 
             }
             else
@@ -117,6 +118,7 @@ namespace AlphatronMarineServer.Controllers
 
         public Dictionary<string,string> GetCurrentUser(HttpCookie cookie)
         {
+
             Dictionary<string, string> cook = new Dictionary<string, string>();
             if (cookie != null)
             {

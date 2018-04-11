@@ -16,7 +16,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
             
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.VID = id;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
@@ -44,7 +44,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
            
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
@@ -92,7 +92,7 @@ namespace AlphatronMarineServer.Controllers
         {
                 HttpCookie cookie = Request.Cookies["User"];
                 
-                if (auth.CheckAuthStatus(cookie))
+                if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
                 {
                     ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                     ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -109,7 +109,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
 
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -136,7 +136,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
 
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -163,7 +163,7 @@ namespace AlphatronMarineServer.Controllers
             HttpCookie cookie = Request.Cookies["User"];
             ViewBag.User = auth.GetCurrentUser(cookie)["User"];
             ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 db.Equipment.Remove(db.Equipment.Find(id));
                 db.SaveChanges();
@@ -178,7 +178,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
             
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -206,7 +206,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
             
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -234,7 +234,7 @@ namespace AlphatronMarineServer.Controllers
                 HttpCookie cookie = Request.Cookies["User"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
-                if (auth.CheckAuthStatus(cookie))
+                if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
                 {
                     db.User.Remove(db.User.Find(id));
                     db.SaveChanges();

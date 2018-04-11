@@ -14,8 +14,7 @@ namespace AlphatronMarineServer.Controllers
         public ActionResult Index()
         {
             HttpCookie cookie = Request.Cookies["User"];
-            string trying = ApiModel.GetVesselByIMO(9241061);
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -30,7 +29,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
             
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -45,7 +44,7 @@ namespace AlphatronMarineServer.Controllers
         {
                 HttpCookie cookie = Request.Cookies["User"];
                 
-                if (auth.CheckAuthStatus(cookie))
+                if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
                 {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -60,7 +59,7 @@ namespace AlphatronMarineServer.Controllers
         {
             HttpCookie cookie = Request.Cookies["User"];
 
-            if (auth.CheckAuthStatus(cookie))
+            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;

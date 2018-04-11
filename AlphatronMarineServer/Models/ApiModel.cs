@@ -38,6 +38,13 @@ namespace AlphatronMarineServer.Models
             return encoded;
 
         }
+        public static string GetUserInfo(int id)
+        {
+            var c = db.User.Find(id);
+            var encoded = JsonConvert.SerializeObject(c);
+            return encoded;
+
+        }
 
     }
 }

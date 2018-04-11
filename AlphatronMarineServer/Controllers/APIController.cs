@@ -11,9 +11,9 @@ namespace AlphatronMarineServer.Controllers
 {
     public class APIController : Controller
     {
-        public string Vessels()
+        public string Vessels(int id)
         {
-            return ApiModel.GetVesselsList();
+            return ApiModel.GetVesselsList;
         }
         public string Equipments(int id)
         {
