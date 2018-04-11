@@ -11,13 +11,32 @@ namespace AlphatronMarineServer.Controllers
 {
     public class APIController : Controller
     {
-        public string Vessels(int id)
+        //Read operations
+        public string UsersVessels(int id)
         {
-            return ApiModel.GetVesselsList;
+            return ApiModel.GetUsersVesselsList(id);
         }
         public string Equipments(int id)
         {
             return ApiModel.GetEquipmentByIMO(id);
         }
+        public string CompaniesVessels(int id)
+        {
+            return ApiModel.GetVesselByCompanyID(id);
+        }
+        public string Products()
+        {
+            return ApiModel.GetProducts();
+        }
+        public string Locations()
+        {
+            return ApiModel.GetLocations();
+        }
+        public string GetUserInfo(int id)
+        {
+            return ApiModel.GetUser(id);
+        }
+
+
     }
 }
