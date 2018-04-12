@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Web.Http;
+using System.Web;
 using System.Web.Mvc;
 using AlphatronMarineServer.Models;
 
@@ -11,30 +10,48 @@ namespace AlphatronMarineServer.Controllers
 {
     public class APIController : Controller
     {
+        AuthController auth = new AuthController();
         //Read operations
-        public string UsersVessels(int id)
+        [HttpGet]
+        public string UsersVessels(int user_id, string token, int id)
         {
-            return ApiModel.GetUsersVesselsList(id);
+            if (auth.CheckAuthStatus(user_id, token))
+            {
+                return ApiModel.GetUsersVesselsList(id);
+            }
+            return "Not authorized for this";
         }
-        public string Equipments(int id)
+        public string Equipments(int user_id, string token, int id)
         {
-            return ApiModel.GetEquipmentByIMO(id);
+            if (auth.CheckAuthStatus(user_id, token))
+            {
+                return ApiModel.GetEquipmentByIMO(id);
+            }
+            return "Not authorized for this";
         }
-        public string CompaniesVessels(int id)
+        public string CompaniesVessels(int user_id, string token, int id)
         {
-            return ApiModel.GetVesselByCompanyID(id);
+            if (auth.CheckAuthStatus(user_id, token))
+            {
+               return ApiModel.GetVesselByCompanyID(id);
+            }
+            return "Not authorized for this";
         }
         public string Products()
         {
-            return ApiModel.GetProducts();
+           return ApiModel.GetProducts();           
         }
         public string Locations()
         {
-            return ApiModel.GetLocations();
+           return ApiModel.GetLocations();
         }
-        public string GetUserInfo(int id)
+        public string GetUserInfo(int user_id, string token, int id)
         {
-            return ApiModel.GetUser(id);
+            if (auth.CheckAuthStatus(user_id, token))
+            {
+                return ApiModel.GetUserInfo(id);
+            }
+            return "Not authorized for this";
         }
 
 

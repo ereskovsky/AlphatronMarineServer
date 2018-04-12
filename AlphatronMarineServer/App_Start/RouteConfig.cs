@@ -15,9 +15,11 @@ namespace AlphatronMarineServer
             //API
             routes.MapRoute(
                 name: "APIVessels",
-                url: "API/{action}/{id}",
-                defaults: new { controller = "API", action = "Vessels", id = UrlParameter.Optional }
+                url: "API/{action}",
+                defaults: new { controller = "API", action = "UsersVessels" }
             );
+
+
             //Auth
             routes.MapRoute(
                 name: "Login",

@@ -19,56 +19,88 @@ namespace AlphatronMarineServer.Models
                     vessels.Add(ves.Vessel);
                 }
             }
-            var encoded = JsonConvert.SerializeObject(vessels);
-            return encoded;
+            if (vessels != null)
+            {
+                var encoded = JsonConvert.SerializeObject(vessels);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
 
         }
         public static string GetVesselByIMO(int id)
         {
             var v = db.Vessel.Find(id);
-            var encoded = JsonConvert.SerializeObject(v);
-            return encoded;
+            if (v != null)
+            {
+                var encoded = JsonConvert.SerializeObject(v);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
 
         }
         public static string GetVesselByCompanyID(int id)
         {
             var v = db.Vessel.Where(x=>x.CompanyID == id).ToList();
-            var encoded = JsonConvert.SerializeObject(v);
-            return encoded; 
+            if (v != null)
+            {
+                var encoded = JsonConvert.SerializeObject(v);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
 
         }
 
         public static string GetCompanyByID(int id)
         {
             var c = db.Company.Find(id);
-            var encoded = JsonConvert.SerializeObject(c);
-            return encoded;
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯";
 
         }
         public static string GetEquipmentByIMO(int imo)
         {
             var c = db.Vessel.Find(imo);
-            var encoded = JsonConvert.SerializeObject(c.Equipment);
-            return encoded;
+            if (c!= null) {
+                var encoded = JsonConvert.SerializeObject(c.Equipment);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+            
 
         }
         public static string GetProducts()
         {
             var c = db.Product.ToList();
-            var encoded = JsonConvert.SerializeObject(c);
-            return encoded;
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
         }
         public static string GetLocations()
         {
             var c = db.BusinessLocation.ToList();
-            var encoded = JsonConvert.SerializeObject(c);
-            return encoded;
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
         }
         public static string GetUserInfo(int id)
         {
             var c = db.User.Find(id);
-            var encoded = JsonConvert.SerializeObject(c);
-            return encoded;
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
         }
 
     }

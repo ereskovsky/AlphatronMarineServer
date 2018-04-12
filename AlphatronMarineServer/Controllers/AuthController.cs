@@ -17,8 +17,20 @@ namespace AlphatronMarineServer.Controllers
         [HttpGet]
         public ActionResult Login()
         {
+            int uid;
+            string utoken;
             HttpCookie cookie = Request.Cookies["User"];
-            if (CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (CheckAuthStatus(uid, utoken))
             {
 
                 return Redirect("~/Index");
@@ -42,7 +54,8 @@ namespace AlphatronMarineServer.Controllers
             if (IfUserExists(email, password))
             {
                 var token = CreateToken(email);
-                db.Auth.Add(new Auth { UserID = user.ID, Token = token });
+                var date = DateTime.Now;
+                db.Auth.Add(new Auth { UserID = user.ID, Token = token, Date = date });
                 db.SaveChanges();
                 HttpCookie cookie = new HttpCookie("User");
                 cookie["role"] = user.RoleID.ToString();

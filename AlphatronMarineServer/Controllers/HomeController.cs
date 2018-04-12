@@ -13,8 +13,18 @@ namespace AlphatronMarineServer.Controllers
         AlphatronMarineEntities db = new AlphatronMarineEntities();
         public ActionResult Index()
         {
+            int uid;
+            string utoken;
             HttpCookie cookie = Request.Cookies["User"];
-            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
+            if (cookie != null){
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else{
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -27,9 +37,20 @@ namespace AlphatronMarineServer.Controllers
 
         public ActionResult Fleet()
         {
+            int uid;
+            string utoken;
             HttpCookie cookie = Request.Cookies["User"];
-            
-            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -42,9 +63,20 @@ namespace AlphatronMarineServer.Controllers
         }
         public ActionResult Users()
         {
-                HttpCookie cookie = Request.Cookies["User"];
-                
-                if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
                 {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -57,9 +89,20 @@ namespace AlphatronMarineServer.Controllers
         }
         public ActionResult Equipment()
         {
+            int uid;
+            string utoken;
             HttpCookie cookie = Request.Cookies["User"];
-
-            if (auth.CheckAuthStatus(int.Parse(cookie["id"]), cookie["token"]))
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
             {
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
