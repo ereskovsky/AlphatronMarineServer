@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using AlphatronMarineServer.Controllers;
 
 namespace AlphatronMarineServer.Models
 {
     public class ApiModel
     {
         static AlphatronMarineEntities db = new AlphatronMarineEntities();
+        AuthController auth = new AuthController();
         public static string GetUsersVesselsList(int id)
         {
             List<Vessel> vessels = new List<Vessel>();
@@ -93,6 +95,16 @@ namespace AlphatronMarineServer.Models
             return "Something went wrong ¯\\_(ツ)_/¯ ";
         }
         public static string GetUserInfo(int id)
+        {
+            var c = db.User.Find(id);
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+        }
+        public static string AuthUser(string email, string password)
         {
             var c = db.User.Find(id);
             if (c != null)

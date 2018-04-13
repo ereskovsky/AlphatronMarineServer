@@ -12,7 +12,7 @@ namespace AlphatronMarineServer.Controllers
     {
         AuthController auth = new AuthController();
         //Read operations
-        [HttpGet]
+        
         public string UsersVessels(int user_id, string token, int id)
         {
             if (auth.CheckAuthStatus(user_id, token))
@@ -52,6 +52,10 @@ namespace AlphatronMarineServer.Controllers
                 return ApiModel.GetUserInfo(id);
             }
             return "Not authorized for this";
+        }
+        public string APIAuth(string email, string password)
+        {
+            auth.IfUserExists(email,password)
         }
 
 

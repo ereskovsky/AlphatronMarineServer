@@ -9,10 +9,12 @@ namespace AlphatronMarineServer.Controllers
 {
     public class HomeController : Controller
     {
+
         AuthController auth = new AuthController();
         AlphatronMarineEntities db = new AlphatronMarineEntities();
         public ActionResult Index()
         {
+            
             int uid;
             string utoken;
             HttpCookie cookie = Request.Cookies["User"];

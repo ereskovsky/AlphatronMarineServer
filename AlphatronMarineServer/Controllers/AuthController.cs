@@ -50,9 +50,10 @@ namespace AlphatronMarineServer.Controllers
         public ActionResult Authorize(string email, string password)
         {
             var pwd = MD5Hasher.Hash(password);
-            var user = db.User.Where(a => a.Email == email && a.Password == pwd).FirstOrDefault();
+           
             if (IfUserExists(email, password))
             {
+                var user = db.User.Where(a => a.Email == email && a.Password == pwd).FirstOrDefault();
                 var token = CreateToken(email);
                 var date = DateTime.Now;
                 db.Auth.Add(new Auth { UserID = user.ID, Token = token, Date = date });
