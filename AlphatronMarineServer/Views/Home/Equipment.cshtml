@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-2">
         <div class="ibox-title" style="border: none; padding: 28px 15px 7px">
-            <a class="btn btn-primary " href="~/Equipment/0">Add Equipment</a>
+            <a class="btn btn-primary " href="~/Vessel/@ViewBag.VIMO/Equipment/0">Add Equipment</a>
         </div>
     </div>
 </div>
@@ -67,14 +67,14 @@
                             @foreach (var item in ViewBag.Equipment)
                             {
                                 <tr>
-                                    <td>@item.SerialNumber</td>
+                                    <td><a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber/Fields">@item.SerialNumber</a></td>
                                     <td>@item.Maker</td>
                                     <td>@item.Model</td>
                                     <td>@item.Remarks</td>
                                     <td>@item.Vessel.IMO - @item.Vessel.Name</td>
                                     <td>
-                                        <a href="~/Equipment/@item.SerialNumber"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                        <a id="del" href="~/Equipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                        <a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
+                                        <a id="del" href="~/Vessel/@ViewBag.VIMOEquipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
                                     </td>
                                 </tr>
                             }

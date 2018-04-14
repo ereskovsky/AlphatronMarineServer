@@ -9,8 +9,8 @@ namespace AlphatronMarineServer.Models
 {
     public class ApiModel
     {
+        static AuthController auth = new AuthController();
         static AlphatronMarineEntities db = new AlphatronMarineEntities();
-        AuthController auth = new AuthController();
         public static string GetUsersVesselsList(int id)
         {
             List<Vessel> vessels = new List<Vessel>();
@@ -106,14 +106,28 @@ namespace AlphatronMarineServer.Models
         }
         public static string AuthUser(string email, string password)
         {
-            var c = db.User.Find(id);
-            if (c != null)
+            if (auth.IfUserExists(email, password))
             {
-                var encoded = JsonConvert.SerializeObject(c);
-                return encoded;
+                var pwd = MD5Hasher.Hash(password);
+                var c = db.User.Where(a => a.Email == email && a.Password == password).FirstOrDefault();
+                if (c != null)
+                {
+                    var token = auth.API(email, password);
+                    AuthApiResponse resp = new AuthApiResponse { User = c, Token = token };
+                    var encoded = JsonConvert.SerializeObject(resp);
+                    return encoded;
+                }
+                return "Something went wrong ¯\\_(ツ)_/¯ ";
             }
-            return "Something went wrong ¯\\_(ツ)_/¯ ";
+            else
+                return "User does not exist";
         }
 
+    }
+    public class AuthApiResponse
+    {
+        public User User { get; set; }
+        public string Token { get; set; }
+        public DateTime Date { get { return DateTime.Now; }}
     }
 }

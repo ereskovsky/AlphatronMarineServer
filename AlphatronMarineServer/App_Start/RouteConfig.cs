@@ -36,8 +36,13 @@ namespace AlphatronMarineServer
                 url: "Authorize",
                 defaults: new { controller = "Auth", action = "Authorize" }
             );
+            routes.MapRoute(
+                name: "StatusCheck",
+                url: "Auth/CheckAuthStatus",
+                defaults: new { controller = "Auth", action = "CheckAuthStatus" }
+            );
 
-            //RoteTemplate
+            //RouteTemplate
             routes.MapRoute(
                 name: "Default",
                 url: "{action}",
@@ -58,14 +63,42 @@ namespace AlphatronMarineServer
 
             //Equipment
             routes.MapRoute(
+               name: "Equipment",
+               url: "Vessel/{imo}/Equipment",
+               defaults: new { controller = "Home", action = "Equipment", imo = UrlParameter.Optional }
+           );
+            routes.MapRoute(
                 name: "EquipTemplate",
-                url: "Equipment/{id}",
-                defaults: new { controller = "CRUD", action = "EquipmentTemplate", id = UrlParameter.Optional }
+                url: "Vessel/{imo}/Equipment/{id}",
+                defaults: new { controller = "CRUD", action = "EquipmentTemplate", id = UrlParameter.Optional, imo = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "EquipDelete",
                 url: "Equipment/{id}/del",
                 defaults: new { controller = "CRUD", action = "EquipmentDelete", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "ETFields",
+                url: "Vessel/{imo}/Equipment/{id}/Fields",
+                defaults: new { controller = "CRUD", action = "ETFields", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "ETFieldsSave",
+                url: "Vessel/{imo}/Equipment/{id}/ETFieldsSave",
+                defaults: new { controller = "CRUD", action = "ETFieldsSave", id = UrlParameter.Optional }
+            );
+
+
+            //EquipmentTemplates
+            routes.MapRoute(
+                name: "ETTemplate",
+                url: "EquipmentTemplates/{id}",
+                defaults: new { controller = "CRUD", action = "ETTemplate", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "ETDelete",
+                url: "EquipmentTemplates/{id}/del",
+                defaults: new { controller = "CRUD", action = "ETDelete", id = UrlParameter.Optional }
             );
 
             //Companies

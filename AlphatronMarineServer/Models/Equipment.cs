@@ -21,9 +21,28 @@ namespace AlphatronMarineServer.Models
         public string Maker { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> VesselIMO { get; set; }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public string Fields { get; set; }
+        public Nullable<int> TemplateID { get; set; }
+    
+        public virtual EquipmentTemplates EquipmentTemplates { get; set; }
         [JsonIgnore]
         [IgnoreDataMember]
         public virtual Vessel Vessel { get; set; }
+
+
+        public Dictionary<string, string> FieldsValues
+        {
+            get {
+                return JsonConvert.DeserializeObject<Dictionary<string, string>>(Fields);
+            }
+        }
+
+        public string GetFieldValue(string f)
+        {
+            return FieldsValues[f];
+        }
+
     }
 }

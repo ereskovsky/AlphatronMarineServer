@@ -30,6 +30,7 @@ namespace AlphatronMarineServer.Models
         public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
+        public virtual DbSet<EquipmentTemplates> EquipmentTemplates { get; set; }
         public virtual DbSet<General> General { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBulletFact> ProductBulletFact { get; set; }

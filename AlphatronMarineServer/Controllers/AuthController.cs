@@ -51,11 +51,17 @@ namespace AlphatronMarineServer.Controllers
         {
             var pwd = MD5Hasher.Hash(password);
            
-            if (IfUserExists(email, password))
+            if (IfUserExists(email, pwd))
             {
                 var user = db.User.Where(a => a.Email == email && a.Password == pwd).FirstOrDefault();
                 var token = CreateToken(email);
                 var date = DateTime.Now;
+                var olddate = date.AddHours(-10);
+                var old = db.Auth.Where(x => x.Date < olddate);
+                foreach (var item in old)
+                {
+                    db.Auth.Remove(item);
+                }
                 db.Auth.Add(new Auth { UserID = user.ID, Token = token, Date = date });
                 db.SaveChanges();
                 HttpCookie cookie = new HttpCookie("User");
@@ -72,7 +78,7 @@ namespace AlphatronMarineServer.Controllers
         public bool IfUserExists(string email, string password)
         {
             var pwd = MD5Hasher.Hash(password);
-            var user = db.User.Where(a => a.Email == email && a.Password == pwd).FirstOrDefault();
+            var user = db.User.Where(a => a.Email == email && a.Password == password).FirstOrDefault();
             if (user != null)
             {
                 return true;
@@ -94,10 +100,10 @@ namespace AlphatronMarineServer.Controllers
             else
                 return false;
 
-            var query = db.Auth.Where(a => a.UserID == user_id && a.Token == token).ToList();
+            var query = db.Auth.Where(a => a.UserID == user_id && a.Token == token).FirstOrDefault();
             if (query != null)
                 return true;
-            return true;
+            return false;
         }
 
         public static string CreateToken(string login)
@@ -143,6 +149,26 @@ namespace AlphatronMarineServer.Controllers
             else
                 return null;
 
+        }
+        public string API(string email, string password)
+        {
+            var pwd = MD5Hasher.Hash(password);
+            string token = null;
+            if (IfUserExists(email, password))
+            {
+                var user = db.User.Where(a => a.Email == email && a.Password == password).FirstOrDefault();
+                token = CreateToken(email);
+                var date = DateTime.Now;
+                var olddate = date.AddHours(-10);
+                var old = db.Auth.Where(x => x.Date < olddate);
+                foreach (var item in old)
+                {
+                    db.Auth.Remove(item);
+                }
+                db.Auth.Add(new Auth { UserID = user.ID, Token = token, Date = date });
+                db.SaveChanges();
+            }
+            return token; 
         }
     }
 }

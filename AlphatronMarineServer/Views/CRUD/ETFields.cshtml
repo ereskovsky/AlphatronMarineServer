@@ -1,0 +1,49 @@
+﻿@model AlphatronMarineServer.Models.Equipment
+@{
+
+}
+<link href="~/Content/daterangepicker-bs3.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-datepicker.js"></script>
+<div style="margin: 0px" class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>Vessel</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="~/">Main</a>
+            </li>
+            <li class="active">
+                <strong>Add or Change Equipment</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form autocomplete="off" action="ETFieldsSave" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+                        @foreach (var item in ViewBag.E.EquipmentTemplates.FieldsList)
+    {
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">@item.Name</label>
+
+                        <div class="col-sm-5"><input type="text" name="@item.Name" class="form-control" value="@ViewBag.E.GetFieldValue(@item.Name)"></div>
+                    </div>
+}
+                        <a href="~/Vessel/@ViewBag.VIMO/Equipment/@ViewBag.E.SerialNumber" style="text-decoration: none; color: #676a6c"><button class="btn btn-white" type="button">Back</button></a>
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+@*<script>
+
+    $('#select_id').change(function () {
+        alert($(this).val());
+    })
+    </script>*@

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище AlphatronModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище u480140Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auth">
           <Key>
             <PropertyRef Name="ID" />
@@ -60,6 +60,16 @@
           <Property Name="Maker" Type="varchar" MaxLength="255" />
           <Property Name="Remarks" Type="varchar" MaxLength="255" />
           <Property Name="VesselIMO" Type="int" />
+          <Property Name="Fields" Type="text" />
+          <Property Name="TemplateID" Type="int" />
+        </EntityType>
+        <EntityType Name="EquipmentTemplates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
+          <Property Name="Fields" Type="text" />
         </EntityType>
         <EntityType Name="General">
           <Key>
@@ -126,6 +136,18 @@
           <Property Name="SuperIntendantID" Type="int" />
           <Property Name="VesselIMO" Type="int" />
         </EntityType>
+        <Association Name="FK_Equipment_EquipmentTemplates">
+          <End Role="EquipmentTemplates" Type="Self.EquipmentTemplates" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTemplates">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="TemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Equipment_Vessel">
           <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
@@ -199,7 +221,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VesselAccess_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VesselAccess" Type="Self.VesselAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -211,7 +235,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VesselAccess_Vessel">
-          <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1" />
+          <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VesselAccess" Type="Self.VesselAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vessel">
@@ -222,12 +248,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище AlphatronModelContainer">
+        <EntityContainer Name="Хранилище u480140ModelContainer">
           <EntitySet Name="Auth" EntityType="Self.Auth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BusinessLocation" EntityType="Self.BusinessLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EquipmentTemplates" EntityType="Self.EquipmentTemplates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="General" EntityType="Self.General" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" Schema="dbo" store:Type="Tables" />
@@ -235,6 +262,10 @@
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vessel" EntityType="Self.Vessel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VesselAccess" EntityType="Self.VesselAccess" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Equipment_EquipmentTemplates" Association="Self.FK_Equipment_EquipmentTemplates">
+            <End Role="EquipmentTemplates" EntitySet="EquipmentTemplates" />
+            <End Role="Equipment" EntitySet="Equipment" />
+          </AssociationSet>
           <AssociationSet Name="FK_Equipment_Vessel" Association="Self.FK_Equipment_Vessel">
             <End Role="Vessel" EntitySet="Vessel" />
             <End Role="Equipment" EntitySet="Equipment" />
@@ -272,7 +303,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AlphatronModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="u480140Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Auth">
           <Key>
             <PropertyRef Name="ID" />
@@ -331,7 +362,19 @@
           <Property Name="Maker" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Remarks" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="VesselIMO" Type="Int32" />
+          <Property Name="Fields" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="TemplateID" Type="Int32" />
+          <NavigationProperty Name="EquipmentTemplates" Relationship="Self.FK_Equipment_EquipmentTemplates" FromRole="Equipment" ToRole="EquipmentTemplates" />
           <NavigationProperty Name="Vessel" Relationship="Self.FK_Equipment_Vessel" FromRole="Equipment" ToRole="Vessel" />
+        </EntityType>
+        <EntityType Name="EquipmentTemplates">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Fields" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_EquipmentTemplates" FromRole="EquipmentTemplates" ToRole="Equipment" />
         </EntityType>
         <EntityType Name="General">
           <Key>
@@ -446,6 +489,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Equipment_EquipmentTemplates">
+          <End Role="EquipmentTemplates" Type="Self.EquipmentTemplates" Multiplicity="0..1" />
+          <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EquipmentTemplates">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Equipment">
+              <PropertyRef Name="TemplateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Equipment_Vessel">
           <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1" />
           <End Role="Equipment" Type="Self.Equipment" Multiplicity="*" />
@@ -483,7 +538,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VesselAccess_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VesselAccess" Type="Self.VesselAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -495,7 +552,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_VesselAccess_Vessel">
-          <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1" />
+          <End Role="Vessel" Type="Self.Vessel" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VesselAccess" Type="Self.VesselAccess" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Vessel">
@@ -512,6 +571,7 @@
           <EntitySet Name="Company" EntityType="Self.Company" />
           <EntitySet Name="Country" EntityType="Self.Country" />
           <EntitySet Name="Equipment" EntityType="Self.Equipment" />
+          <EntitySet Name="EquipmentTemplates" EntityType="Self.EquipmentTemplates" />
           <EntitySet Name="General" EntityType="Self.General" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" />
@@ -530,6 +590,10 @@
           <AssociationSet Name="FK_Vessel_Country" Association="Self.FK_Vessel_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="Vessel" EntitySet="Vessel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Equipment_EquipmentTemplates" Association="Self.FK_Equipment_EquipmentTemplates">
+            <End Role="EquipmentTemplates" EntitySet="EquipmentTemplates" />
+            <End Role="Equipment" EntitySet="Equipment" />
           </AssociationSet>
           <AssociationSet Name="FK_Equipment_Vessel" Association="Self.FK_Equipment_Vessel">
             <End Role="Vessel" EntitySet="Vessel" />
@@ -557,9 +621,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище AlphatronModelContainer" CdmEntityContainer="AlphatronMarineEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище u480140ModelContainer" CdmEntityContainer="AlphatronMarineEntities">
           <EntitySetMapping Name="Auth">
-            <EntityTypeMapping TypeName="AlphatronModel.Auth">
+            <EntityTypeMapping TypeName="u480140Model.Auth">
               <MappingFragment StoreEntitySet="Auth">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -569,7 +633,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BusinessLocation">
-            <EntityTypeMapping TypeName="AlphatronModel.BusinessLocation">
+            <EntityTypeMapping TypeName="u480140Model.BusinessLocation">
               <MappingFragment StoreEntitySet="BusinessLocation">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
@@ -584,7 +648,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Company">
-            <EntityTypeMapping TypeName="AlphatronModel.Company">
+            <EntityTypeMapping TypeName="u480140Model.Company">
               <MappingFragment StoreEntitySet="Company">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -592,7 +656,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Country">
-            <EntityTypeMapping TypeName="AlphatronModel.Country">
+            <EntityTypeMapping TypeName="u480140Model.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="enabled" ColumnName="enabled" />
@@ -609,18 +673,29 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Equipment">
-            <EntityTypeMapping TypeName="AlphatronModel.Equipment">
+            <EntityTypeMapping TypeName="u480140Model.Equipment">
               <MappingFragment StoreEntitySet="Equipment">
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Maker" ColumnName="Maker" />
                 <ScalarProperty Name="Remarks" ColumnName="Remarks" />
                 <ScalarProperty Name="VesselIMO" ColumnName="VesselIMO" />
+                <ScalarProperty Name="Fields" ColumnName="Fields" />
+                <ScalarProperty Name="TemplateID" ColumnName="TemplateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EquipmentTemplates">
+            <EntityTypeMapping TypeName="u480140Model.EquipmentTemplates">
+              <MappingFragment StoreEntitySet="EquipmentTemplates">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Fields" ColumnName="Fields" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="General">
-            <EntityTypeMapping TypeName="AlphatronModel.General">
+            <EntityTypeMapping TypeName="u480140Model.General">
               <MappingFragment StoreEntitySet="General">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -629,7 +704,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="AlphatronModel.Product">
+            <EntityTypeMapping TypeName="u480140Model.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -639,7 +714,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductBulletFact">
-            <EntityTypeMapping TypeName="AlphatronModel.ProductBulletFact">
+            <EntityTypeMapping TypeName="u480140Model.ProductBulletFact">
               <MappingFragment StoreEntitySet="ProductBulletFact">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Fact" ColumnName="Fact" />
@@ -648,7 +723,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="AlphatronModel.Roles">
+            <EntityTypeMapping TypeName="u480140Model.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -656,7 +731,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="AlphatronModel.User">
+            <EntityTypeMapping TypeName="u480140Model.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -668,7 +743,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vessel">
-            <EntityTypeMapping TypeName="AlphatronModel.Vessel">
+            <EntityTypeMapping TypeName="u480140Model.Vessel">
               <MappingFragment StoreEntitySet="Vessel">
                 <ScalarProperty Name="IMO" ColumnName="IMO" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -683,7 +758,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VesselAccess">
-            <EntityTypeMapping TypeName="AlphatronModel.VesselAccess">
+            <EntityTypeMapping TypeName="u480140Model.VesselAccess">
               <MappingFragment StoreEntitySet="VesselAccess">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="SuperIntendantID" ColumnName="SuperIntendantID" />

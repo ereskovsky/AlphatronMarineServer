@@ -194,7 +194,11 @@
     <Compile Include="Models\Country.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EqField.cs" />
     <Compile Include="Models\Equipment.cs">
+      <DependentUpon>AlphatronModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EquipmentTemplates.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\General.cs">
@@ -862,6 +866,9 @@
     <Content Include="Views\CRUD\UserTemplate.cshtml" />
     <Content Include="Views\CRUD\EquipmentTemplate.cshtml" />
     <Content Include="Views\Home\Equipment.cshtml" />
+    <Content Include="Views\Home\EquipmentTemplates.cshtml" />
+    <Content Include="Views\CRUD\ETTemplate.cshtml" />
+    <Content Include="Views\CRUD\ETFields.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

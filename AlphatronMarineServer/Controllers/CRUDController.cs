@@ -1,4 +1,5 @@
 ﻿using AlphatronMarineServer.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,7 +139,7 @@ namespace AlphatronMarineServer.Controllers
                     return Redirect("~/Login");
         }
         [HttpGet]
-        public ActionResult EquipmentTemplate(int id)
+        public ActionResult EquipmentTemplate(int id, int imo)
         {
             int uid;
             string utoken;
@@ -155,6 +156,9 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
+
+                ViewBag.VIMO = imo;
+                ViewBag.EquipmentTemplates = db.EquipmentTemplates;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.EID = id;
@@ -176,7 +180,7 @@ namespace AlphatronMarineServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult EquipmentTemplate(int id, Equipment eq)
+        public ActionResult EquipmentTemplate(int id, int imo, Equipment eq)
         {
             int uid;
             string utoken;
@@ -193,6 +197,8 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
+                ViewBag.VIMO = imo;
+                ViewBag.EquipmentTemplates = db.EquipmentTemplates;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 if (id == 0)
@@ -205,6 +211,7 @@ namespace AlphatronMarineServer.Controllers
                     db.Equipment.Find(id).Maker = eq.Maker;
                     db.Equipment.Find(id).Remarks = eq.Remarks;
                     db.Equipment.Find(id).VesselIMO = eq.VesselIMO;
+
                 };
                 db.SaveChanges();
                 return Redirect("~/Equipment");
@@ -345,6 +352,187 @@ namespace AlphatronMarineServer.Controllers
                     }
                  else
                 return Redirect("~/Login");
+        }
+
+
+        [HttpGet]
+        public ActionResult ETTemplate(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.ETID = id;
+                ViewBag.Part = "Equipment";
+                if (id == 0)
+                {
+
+                    return View(new EquipmentTemplates { });
+                }
+                else
+                {
+                    EquipmentTemplates et = db.EquipmentTemplates.Find(id);
+                    return View(et);
+                }
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpPost]
+        public ActionResult ETTemplate(int id, EquipmentTemplates et)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                if (id == 0)
+                {
+                    List<EqField> listFields = new List<EqField>();
+                    foreach (var item in et.Fields.Split(';'))
+                    {
+                        listFields.Add(new EqField { Name = item });
+                    }
+                    et.Fields = JsonConvert.SerializeObject(listFields);
+                    db.EquipmentTemplates.Add(et);
+                }
+                else
+                {
+                    List<EqField> listFields = new List<EqField>();
+                    foreach (var item in et.Fields.Split(';'))
+                    {
+                        listFields.Add(new EqField { Name = item });
+                    }
+                    db.EquipmentTemplates.Find(id).Name = et.Name;
+                    db.EquipmentTemplates.Find(id).Fields = JsonConvert.SerializeObject(listFields);
+                }
+                db.SaveChanges();
+                return Redirect("~/Users");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+        public ActionResult ETDelete(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                db.User.Remove(db.User.Find(id));
+                db.SaveChanges();
+
+                return Redirect("~/Users");
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpGet]
+        public ActionResult ETFields(int id, int imo)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+
+                ViewBag.VIMO = imo;
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.Part = "Equipment";
+                Equipment e = db.Equipment.Find(id);
+                ViewBag.E = e;
+               return View();
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpPost]
+        public ActionResult ETFieldsSave(int id, int imo)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                 foreach (string item in Request.Form.Keys)
+                 {
+                    dic.Add(item, Request.Form[item]);
+                 }
+                string encoded = JsonConvert.SerializeObject(dic);
+                db.Equipment.Find(id).Fields = encoded;
+                db.SaveChanges();
+                return Redirect("~/Vessel/"+imo+"/Equipment");
+            }
+            else
+                return Redirect("~/Login");
+
         }
 
     }
