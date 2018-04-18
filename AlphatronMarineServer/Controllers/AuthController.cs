@@ -77,8 +77,7 @@ namespace AlphatronMarineServer.Controllers
         }
         public bool IfUserExists(string email, string password)
         {
-            var pwd = MD5Hasher.Hash(password);
-            var user = db.User.Where(a => a.Email == email && a.Password == password).FirstOrDefault();
+            var user = db.User.Where(x=> x.Email == email && x.Password == password).FirstOrDefault();
             if (user != null)
             {
                 return true;

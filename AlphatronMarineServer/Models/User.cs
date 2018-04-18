@@ -9,9 +9,11 @@
 
 namespace AlphatronMarineServer.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
     public partial class User
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -29,6 +31,8 @@ namespace AlphatronMarineServer.Models
     
         public virtual Company Company { get; set; }
         public virtual Roles Roles { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<VesselAccess> VesselAccess { get; set; }
     }

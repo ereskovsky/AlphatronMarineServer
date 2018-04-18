@@ -18,6 +18,7 @@ namespace AlphatronMarineServer.Models
         public Nullable<int> SuperIntendantID { get; set; }
         public Nullable<int> VesselIMO { get; set; }
     
+
         public virtual User User { get; set; }
         public virtual Vessel Vessel { get; set; }
     }
