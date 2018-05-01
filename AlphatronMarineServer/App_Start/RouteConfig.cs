@@ -92,12 +92,12 @@ namespace AlphatronMarineServer
             //EquipmentTemplates
             routes.MapRoute(
                 name: "ETTemplate",
-                url: "EquipmentTemplates/{id}",
+                url: "ETTemplate/{id}",
                 defaults: new { controller = "CRUD", action = "ETTemplate", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "ETDelete",
-                url: "EquipmentTemplates/{id}/del",
+                url: "ETDelete/{id}/del",
                 defaults: new { controller = "CRUD", action = "ETDelete", id = UrlParameter.Optional }
             );
 

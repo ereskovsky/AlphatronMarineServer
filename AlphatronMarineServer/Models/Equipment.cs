@@ -35,13 +35,23 @@ namespace AlphatronMarineServer.Models
         public Dictionary<string, string> FieldsValues
         {
             get {
-                return JsonConvert.DeserializeObject<Dictionary<string, string>>(Fields);
+                if (Fields != null)
+                {
+                    return JsonConvert.DeserializeObject<Dictionary<string, string>>(Fields);
+                }
+                else
+                    return null;
             }
         }
 
         public string GetFieldValue(string f)
         {
-            return FieldsValues[f];
+            if (FieldsValues != null)
+            {
+                return FieldsValues[f];
+            }
+            else
+                return null;
         }
 
     }

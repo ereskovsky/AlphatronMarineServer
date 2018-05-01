@@ -35,7 +35,12 @@ namespace AlphatronMarineServer.Models
         {
             get
             {
-                listFields = JsonConvert.DeserializeObject<List<EqField>>(Fields);
+                if (Fields != null)
+                {
+                    listFields = JsonConvert.DeserializeObject<List<EqField>>(Fields);
+                }
+                else
+                    listFields = null;
                 return listFields;
             }
         }
@@ -44,11 +49,14 @@ namespace AlphatronMarineServer.Models
             get
             {
                 string a ="";
-                foreach (var item in FieldsList)
+                if (Fields != null)
                 {
-                    a += $"{item.Name};";
+                    foreach (var item in FieldsList)
+                    {
+                        a += $"{item.Name};";
+                    }
+                     a = a.Remove(a.Length - 1);
                 }
-                a = a.Remove(a.Length - 1);
                 return a;
             }
         }

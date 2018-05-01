@@ -59,17 +59,7 @@ namespace AlphatronMarineServer.Controllers
             var z = ApiModel.AuthUser(email, password);
             return ApiModel.AuthUser(email, password);
         }
-        public string test()
-        {
-            Dictionary<string, string> dic = new Dictionary<string, string>();
-
-            dic.Add("1 Field", "lol");
-            dic.Add("2 Field", "kek");
-            dic.Add("3 Field", "cheburek");
-
-            return JsonConvert.SerializeObject(dic);
-        }
-
+        
 
     }
 }
