@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище u480140Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище AlphatronModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auth">
           <Key>
             <PropertyRef Name="ID" />
@@ -62,6 +62,8 @@
           <Property Name="VesselIMO" Type="int" />
           <Property Name="Fields" Type="text" />
           <Property Name="TemplateID" Type="int" />
+          <Property Name="CheckDate" Type="date" />
+          <Property Name="Name" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="EquipmentTemplates">
           <Key>
@@ -103,6 +105,15 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="Temp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="varchar(max)" />
+          <Property Name="ObjectID" Type="int" />
+          <Property Name="SerializedObject" Type="text" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -127,6 +138,7 @@
           <Property Name="GrossTonnage" Type="int" />
           <Property Name="Flag" Type="int" />
           <Property Name="CompanyID" Type="int" />
+          <Property Name="AnnualCheckDate" Type="date" />
         </EntityType>
         <EntityType Name="VesselAccess">
           <Key>
@@ -248,7 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище u480140ModelContainer">
+        <EntityContainer Name="Хранилище AlphatronModelContainer">
           <EntitySet Name="Auth" EntityType="Self.Auth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BusinessLocation" EntityType="Self.BusinessLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
@@ -259,6 +271,7 @@
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Temp" EntityType="Self.Temp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vessel" EntityType="Self.Vessel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VesselAccess" EntityType="Self.VesselAccess" Schema="dbo" store:Type="Tables" />
@@ -303,7 +316,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="u480140Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="AlphatronModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Auth">
           <Key>
             <PropertyRef Name="ID" />
@@ -364,6 +377,8 @@
           <Property Name="VesselIMO" Type="Int32" />
           <Property Name="Fields" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="TemplateID" Type="Int32" />
+          <Property Name="CheckDate" Type="DateTime" Precision="0" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="EquipmentTemplates" Relationship="Self.FK_Equipment_EquipmentTemplates" FromRole="Equipment" ToRole="EquipmentTemplates" />
           <NavigationProperty Name="Vessel" Relationship="Self.FK_Equipment_Vessel" FromRole="Equipment" ToRole="Vessel" />
         </EntityType>
@@ -411,6 +426,15 @@
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Roles" FromRole="Roles" ToRole="User" />
         </EntityType>
+        <EntityType Name="Temp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ObjectID" Type="Int32" />
+          <Property Name="SerializedObject" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="ID" />
@@ -438,6 +462,7 @@
           <Property Name="GrossTonnage" Type="Int32" />
           <Property Name="Flag" Type="Int32" />
           <Property Name="CompanyID" Type="Int32" />
+          <Property Name="AnnualCheckDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Vessel_Company" FromRole="Vessel" ToRole="Company" />
           <NavigationProperty Name="Country" Relationship="Self.FK_Vessel_Country" FromRole="Vessel" ToRole="Country" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_Vessel" FromRole="Vessel" ToRole="Equipment" />
@@ -576,6 +601,7 @@
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Temp" EntityType="Self.Temp" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="Vessel" EntityType="Self.Vessel" />
           <EntitySet Name="VesselAccess" EntityType="Self.VesselAccess" />
@@ -621,9 +647,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище u480140ModelContainer" CdmEntityContainer="AlphatronMarineEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AlphatronModelContainer" CdmEntityContainer="AlphatronMarineEntities">
           <EntitySetMapping Name="Auth">
-            <EntityTypeMapping TypeName="u480140Model.Auth">
+            <EntityTypeMapping TypeName="AlphatronModel.Auth">
               <MappingFragment StoreEntitySet="Auth">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -633,7 +659,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="BusinessLocation">
-            <EntityTypeMapping TypeName="u480140Model.BusinessLocation">
+            <EntityTypeMapping TypeName="AlphatronModel.BusinessLocation">
               <MappingFragment StoreEntitySet="BusinessLocation">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Latitude" ColumnName="Latitude" />
@@ -648,7 +674,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Company">
-            <EntityTypeMapping TypeName="u480140Model.Company">
+            <EntityTypeMapping TypeName="AlphatronModel.Company">
               <MappingFragment StoreEntitySet="Company">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -656,7 +682,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Country">
-            <EntityTypeMapping TypeName="u480140Model.Country">
+            <EntityTypeMapping TypeName="AlphatronModel.Country">
               <MappingFragment StoreEntitySet="Country">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="enabled" ColumnName="enabled" />
@@ -673,7 +699,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Equipment">
-            <EntityTypeMapping TypeName="u480140Model.Equipment">
+            <EntityTypeMapping TypeName="AlphatronModel.Equipment">
               <MappingFragment StoreEntitySet="Equipment">
                 <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
@@ -682,11 +708,13 @@
                 <ScalarProperty Name="VesselIMO" ColumnName="VesselIMO" />
                 <ScalarProperty Name="Fields" ColumnName="Fields" />
                 <ScalarProperty Name="TemplateID" ColumnName="TemplateID" />
+                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="EquipmentTemplates">
-            <EntityTypeMapping TypeName="u480140Model.EquipmentTemplates">
+            <EntityTypeMapping TypeName="AlphatronModel.EquipmentTemplates">
               <MappingFragment StoreEntitySet="EquipmentTemplates">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -695,7 +723,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="General">
-            <EntityTypeMapping TypeName="u480140Model.General">
+            <EntityTypeMapping TypeName="AlphatronModel.General">
               <MappingFragment StoreEntitySet="General">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -704,7 +732,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Product">
-            <EntityTypeMapping TypeName="u480140Model.Product">
+            <EntityTypeMapping TypeName="AlphatronModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -714,7 +742,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductBulletFact">
-            <EntityTypeMapping TypeName="u480140Model.ProductBulletFact">
+            <EntityTypeMapping TypeName="AlphatronModel.ProductBulletFact">
               <MappingFragment StoreEntitySet="ProductBulletFact">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Fact" ColumnName="Fact" />
@@ -723,15 +751,25 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="u480140Model.Roles">
+            <EntityTypeMapping TypeName="AlphatronModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Temp">
+            <EntityTypeMapping TypeName="AlphatronModel.Temp">
+              <MappingFragment StoreEntitySet="Temp">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
+                <ScalarProperty Name="SerializedObject" ColumnName="SerializedObject" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="u480140Model.User">
+            <EntityTypeMapping TypeName="AlphatronModel.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
@@ -743,7 +781,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Vessel">
-            <EntityTypeMapping TypeName="u480140Model.Vessel">
+            <EntityTypeMapping TypeName="AlphatronModel.Vessel">
               <MappingFragment StoreEntitySet="Vessel">
                 <ScalarProperty Name="IMO" ColumnName="IMO" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -754,11 +792,12 @@
                 <ScalarProperty Name="GrossTonnage" ColumnName="GrossTonnage" />
                 <ScalarProperty Name="Flag" ColumnName="Flag" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="AnnualCheckDate" ColumnName="AnnualCheckDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="VesselAccess">
-            <EntityTypeMapping TypeName="u480140Model.VesselAccess">
+            <EntityTypeMapping TypeName="AlphatronModel.VesselAccess">
               <MappingFragment StoreEntitySet="VesselAccess">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="SuperIntendantID" ColumnName="SuperIntendantID" />

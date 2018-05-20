@@ -12,6 +12,7 @@ namespace AlphatronMarineServer.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
 
     public partial class Equipment
@@ -25,14 +26,17 @@ namespace AlphatronMarineServer.Models
         [IgnoreDataMember]
         public string Fields { get; set; }
         public Nullable<int> TemplateID { get; set; }
+        public DateTime CheckDate { get; set; }
+        public string Name { get; set; }
     
         public virtual EquipmentTemplates EquipmentTemplates { get; set; }
         [JsonIgnore]
         [IgnoreDataMember]
         public virtual Vessel Vessel { get; set; }
 
-
-        public Dictionary<string, string> FieldsValues
+        [JsonIgnore]
+        [IgnoreDataMember]
+        public Dictionary<string, string> FieldsValuesPrivate
         {
             get {
                 if (Fields != null)
@@ -44,11 +48,24 @@ namespace AlphatronMarineServer.Models
             }
         }
 
+        public List<KeyValuePair<string,string>> FieldsValues
+        {
+            get
+            {
+                if (Fields != null)
+                {
+                    return (JsonConvert.DeserializeObject<Dictionary<string, string>>(Fields)).ToList();
+                }
+                else
+                    return null;
+            }
+        }
+
         public string GetFieldValue(string f)
         {
             if (FieldsValues != null)
             {
-                return FieldsValues[f];
+                return FieldsValuesPrivate[f];
             }
             else
                 return null;

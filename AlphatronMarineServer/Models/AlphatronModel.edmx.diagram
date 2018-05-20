@@ -4,29 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c8e813741805405292132ad3ba214244" Name="Diagram1">
-        <EntityTypeShape EntityType="u480140Model.Auth" Width="1.5" PointX="5.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.BusinessLocation" Width="1.5" PointX="7.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Company" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Country" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Equipment" Width="1.5" PointX="11.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.EquipmentTemplates" Width="1.5" PointX="9" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.General" Width="1.5" PointX="9.75" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Product" Width="1.5" PointX="0.75" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.ProductBulletFact" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Roles" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.User" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.Vessel" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="u480140Model.VesselAccess" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
-        <AssociationConnector Association="u480140Model.FK_User_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_Vessel_Company" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_Vessel_Country" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_Equipment_EquipmentTemplates" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_Equipment_Vessel" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_ProductBulletFact_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_User_Roles" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_VesselAccess_User" ManuallyRouted="false" />
-        <AssociationConnector Association="u480140Model.FK_VesselAccess_Vessel" ManuallyRouted="false" />
+      <Diagram DiagramId="c39d533edf9e484c84943f2bf51f80e0" Name="Diagram1">
+        <EntityTypeShape EntityType="AlphatronModel.Auth" Width="1.5" PointX="5.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.BusinessLocation" Width="1.5" PointX="7.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Company" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Country" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Equipment" Width="1.5" PointX="11.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.EquipmentTemplates" Width="1.5" PointX="9" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.General" Width="1.5" PointX="9.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Product" Width="1.5" PointX="0.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.ProductBulletFact" Width="1.5" PointX="3" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Roles" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Temp" Width="1.5" PointX="0.75" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.User" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.Vessel" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlphatronModel.VesselAccess" Width="1.5" PointX="8.25" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="AlphatronModel.FK_User_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_Vessel_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_Vessel_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_Equipment_EquipmentTemplates" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_Equipment_Vessel" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_ProductBulletFact_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_User_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_VesselAccess_User" ManuallyRouted="false" />
+        <AssociationConnector Association="AlphatronModel.FK_VesselAccess_Vessel" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

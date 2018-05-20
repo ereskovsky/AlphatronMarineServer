@@ -59,6 +59,7 @@
                                 <th>Maker</th>
                                 <th>Model</th>
                                 <th>Remarks</th>
+                                <th>Check Date</th>
                                 <th>Vessel</th>
                                 <th>Action</th>
                             </tr>
@@ -66,17 +67,18 @@
                         <tbody>
                             @foreach (var item in ViewBag.Equipment)
                             {
-                                <tr>
-                                    <td><a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber/Fields">@item.SerialNumber</a></td>
-                                    <td>@item.Maker</td>
-                                    <td>@item.Model</td>
-                                    <td>@item.Remarks</td>
-                                    <td>@item.Vessel.IMO - @item.Vessel.Name</td>
-                                    <td>
-                                        <a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                        <a id="del" href="~/Vessel/@ViewBag.VIMOEquipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td><a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber/Fields">@item.SerialNumber</a></td>
+                                <td>@item.Maker</td>
+                                <td>@item.Model</td>
+                                <td>@item.Remarks</td>
+                                <th>@item.CheckDate</th>
+                                <td>@item.Vessel.IMO - @item.Vessel.Name</td>
+                                <td>
+                                    <a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
+                                    <a id="del" href="~/Vessel/@ViewBag.VIMOEquipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                </td>
+                            </tr>
                             }
                         </tbody>
                         <tfoot>

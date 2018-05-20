@@ -11,6 +11,7 @@ namespace AlphatronMarineServer.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
     using Newtonsoft.Json;
     
     public partial class EquipmentTemplates
@@ -24,7 +25,8 @@ namespace AlphatronMarineServer.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public string Fields { get; set; }
-    
+        [JsonIgnore]
+        [IgnoreDataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipment { get; set; }
 

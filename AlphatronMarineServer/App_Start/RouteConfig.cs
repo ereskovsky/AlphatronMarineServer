@@ -80,12 +80,12 @@ namespace AlphatronMarineServer
             routes.MapRoute(
                 name: "ETFields",
                 url: "Vessel/{imo}/Equipment/{id}/Fields",
-                defaults: new { controller = "CRUD", action = "ETFields", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "ETFields", id = UrlParameter.Optional,  imo = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "ETFieldsSave",
                 url: "Vessel/{imo}/Equipment/{id}/ETFieldsSave",
-                defaults: new { controller = "CRUD", action = "ETFieldsSave", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "ETFieldsSave", id = UrlParameter.Optional, imo = UrlParameter.Optional }
             );
 
 

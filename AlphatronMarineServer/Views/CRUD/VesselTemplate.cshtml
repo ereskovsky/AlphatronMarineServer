@@ -28,12 +28,12 @@
 
                             <div class="col-sm-5">
                                 @if (ViewBag.VID == 0)
-    {
-                            <input type="text" name="IMO" class="form-control" value="@Model.IMO">
+            {
+                    <input type="text" name="IMO" class="form-control" value="@Model.IMO">
 }
 else
 {
-                            <input type="text" disabled name="IMO" class="form-control" value="@Model.IMO">
+                    <input type="text" disabled name="IMO" class="form-control" value="@Model.IMO">
 }
                             </div>
                         </div>
@@ -67,6 +67,12 @@ else
                             <label class="col-sm-2 control-label">Class</label>
 
                             <div class="col-sm-5"><input type="text" name="Class" class="form-control" value="@Model.Class"></div>
+                        </div>
+                        <div class="form-group" id="data_1">
+                            <label class="col-sm-2 control-label">Annual check date</label>
+                            <div class=" col-sm-5 input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input value="@Model.AnnualCheckDate" type="text" name="AnnualCheckDate" class="form-control">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Country</label>
@@ -117,3 +123,13 @@ else
         </div>
     </div>
 </div>
+<script>
+    $('#data_1 .input-group.date').datepicker({
+        format: 'dd/mm/yyyy',
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true
+    });
+</script>

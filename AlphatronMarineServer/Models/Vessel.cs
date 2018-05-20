@@ -12,11 +12,13 @@ namespace AlphatronMarineServer.Models
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Runtime.Serialization;
     using System.Web.Script.Serialization;
-
+    
     public partial class Vessel
     {
+        AlphatronMarineEntities db = new AlphatronMarineEntities();
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Vessel()
         {
@@ -33,13 +35,18 @@ namespace AlphatronMarineServer.Models
         public Nullable<int> GrossTonnage { get; set; }
         public Nullable<int> Flag { get; set; }
         public Nullable<int> CompanyID { get; set; }
+        public DateTime AnnualCheckDate { get; set; }
 
-        
+        public virtual ICollection<Temp> Temp {
+            get
+            {
+                return db.Temp.Where(x=> x.ObjectID == IMO).ToList();
+            }
+        }
+
         public virtual Company Company { get; set; }
-        
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        
         public virtual ICollection<Equipment> Equipment { get; set; }
         [JsonIgnore]
         [IgnoreDataMember]

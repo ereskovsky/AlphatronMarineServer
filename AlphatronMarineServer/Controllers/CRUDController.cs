@@ -93,9 +93,10 @@ namespace AlphatronMarineServer.Controllers
                 }
                 else
                 {
-                    db.Vessel.Find(id).IMO = v.IMO;
+                    //db.Vessel.Find(id).IMO = v.IMO;
                     db.Vessel.Find(id).Name = v.Name;
                     db.Vessel.Find(id).Type = v.Type;
+                    db.Vessel.Find(id).AnnualCheckDate = v.AnnualCheckDate;
                     db.Vessel.Find(id).MMSI = v.MMSI;
                     db.Vessel.Find(id).CallSign = v.CallSign;
                     db.Vessel.Find(id).GrossTonnage = v.GrossTonnage;
@@ -201,20 +202,24 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.EquipmentTemplates = db.EquipmentTemplates;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.EID = id;
                 if (id == 0)
                 {
+                    eq.VesselIMO = imo;
                     db.Equipment.Add(eq);
                 }
                 else
                 {
                     db.Equipment.Find(id).Model = eq.Model;
+                    db.Equipment.Find(id).Name = eq.Name;
+                    db.Equipment.Find(id).CheckDate = eq.CheckDate;
                     db.Equipment.Find(id).Maker = eq.Maker;
                     db.Equipment.Find(id).Remarks = eq.Remarks;
-                    db.Equipment.Find(id).VesselIMO = eq.VesselIMO;
+                    db.Equipment.Find(id).VesselIMO = imo;
 
                 };
                 db.SaveChanges();
-                return Redirect("~/Equipment");
+                return Redirect("~/Vessel/" + imo+ "/Equipment");
             }
             else
                 return Redirect("~/Login");

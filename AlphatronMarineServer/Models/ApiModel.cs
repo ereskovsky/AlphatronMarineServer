@@ -72,6 +72,29 @@ namespace AlphatronMarineServer.Models
             }
             return "Something went wrong ¯\\_(ツ)_/¯ ";
             
+        }
+        public static string GetETFieldsBySerial(int id)
+        {
+            var c = db.Equipment.Find(id);
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c.FieldsValues);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+
+
+        }
+        public static string GetUserByID(int user_id)
+        {
+            var c = db.User.Find(user_id);
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+
 
         }
         public static string GetProducts()
@@ -122,6 +145,57 @@ namespace AlphatronMarineServer.Models
             else
                 return "User does not exist";
         }
+
+        public static string EditVessel(string newobj)
+        {
+            Vessel v = JsonConvert.DeserializeObject<Vessel>(newobj);
+            if (db.Vessel.Find(v.IMO) != null)
+            {
+                db.Temp.Add(new Temp { ObjectID = v.IMO, Type = "Vessel", SerializedObject = newobj});
+                db.SaveChanges();
+                return "Changes added to queue";
+            }
+            else
+            return "There is no vessel with such IMO";
+        }
+
+        public static string EditEquip(string newobj)
+        {
+            Equipment v = JsonConvert.DeserializeObject<Equipment>(newobj);
+            if (db.Vessel.Find(v.SerialNumber) != null)
+            {
+                
+                db.Temp.Add(new Temp { ObjectID = v.SerialNumber, Type = "Equipment", SerializedObject = newobj });
+                db.SaveChanges();
+                return "Changes added to queue";
+            }
+            else
+                return "There is no equipment with such serial";
+        }
+
+
+        public static string VesselByIMO(int imo)
+        {
+            var c = db.Vessel.Find(imo);
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+        }
+        public static string EquipmentBySerial(int serial)
+        {
+            var c = db.Equipment.Find(serial);
+            if (c != null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+        }
+
+
 
     }
     public class AuthApiResponse
