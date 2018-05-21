@@ -872,6 +872,7 @@
     <Content Include="Views\Home\EquipmentTemplates.cshtml" />
     <Content Include="Views\CRUD\ETTemplate.cshtml" />
     <Content Include="Views\CRUD\ETFields.cshtml" />
+    <Content Include="Views\Home\Changes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

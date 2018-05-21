@@ -18,6 +18,8 @@ namespace AlphatronMarineServer.Models
         public int ID { get; set; }
         public string Type { get; set; }
         public Nullable<int> ObjectID { get; set; }
+
+        public Nullable<System.DateTime> Date { get; set; }
         [JsonIgnore]
         [IgnoreDataMember]
         public string SerializedObject { get; set; }

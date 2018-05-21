@@ -89,7 +89,21 @@ else
                 </li>
 }
 
+                    @if (ViewBag.RoleNum == "1") {
+                    if (ViewBag.Part == "Changes")
+                    {
+                <li class="active">
+                    <a href="~/Changes"><i class="fa fa-gear"></i> <span class="nav-label">Changes</span></a>
+                </li>
+                    }
+                    else
+                    {
+                <li>
+                    <a href="~/Changes"><i class="fa fa-gear"></i> <span class="nav-label">Changes</span></a>
+                </li>
+                    }
 
+                    }
 
                 </ul>
             </div>

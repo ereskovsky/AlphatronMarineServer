@@ -18,7 +18,7 @@ namespace AlphatronMarineServer
                 url: "API/{action}",
                 defaults: new { controller = "API", action = "UsersVessels" }
             );
-
+            
 
             //Auth
             routes.MapRoute(
@@ -41,7 +41,11 @@ namespace AlphatronMarineServer
                 url: "Auth/CheckAuthStatus",
                 defaults: new { controller = "Auth", action = "CheckAuthStatus" }
             );
-
+            routes.MapRoute(
+                name: "AcceptVesselChanges",
+                url: "Change/Accept/Vessel/{id}",
+                defaults: new { controller = "CRUD", action = "AcceptVesselChange", id = UrlParameter.Optional }
+            );
             //RouteTemplate
             routes.MapRoute(
                 name: "Default",
@@ -60,7 +64,7 @@ namespace AlphatronMarineServer
                 url: "Vessel/{id}/del",
                 defaults: new { controller = "CRUD", action = "VesselDelete", id = UrlParameter.Optional }
             );
-
+            
             //Equipment
             routes.MapRoute(
                name: "Equipment",
@@ -76,6 +80,11 @@ namespace AlphatronMarineServer
                 name: "EquipDelete",
                 url: "Equipment/{id}/del",
                 defaults: new { controller = "CRUD", action = "EquipmentDelete", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "AcceptEquipmentChanges",
+                url: "Change/Accept/Equipment/{id}",
+                defaults: new { controller = "CRUD", action = "AcceptEquipmentChanges", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "ETFields",

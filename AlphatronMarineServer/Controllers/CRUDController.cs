@@ -75,41 +75,55 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.Part = "Fleet";
                 ViewBag.Users = db.User;
                 ViewBag.Access = db.VesselAccess;
-                if (id == 0)
-                {
-                    db.Vessel.Add(v);
-                    //db.SaveChanges();
-                    //if (Request.Form["VesselAccess"] != null)
-                    //{
-                    //    var rt = (Request.Form["VesselAccess"]).Split(',');
-
-                    //    foreach (var item in rt)
-                    //    {
-                    //        var tags = db.VesselAccess.Where(v => v.VesselIMO == v.IMO);
-                    //        db.ArticleJoinTag.RemoveRange(tags);
-                    //        db.ArticleJoinTag.Add(new ArticleJoinTag { ArticleID = a.ID, TagID = int.Parse(@item) });
-                    //    }
-                    //}
-                }
-                else
-                {
-                    //db.Vessel.Find(id).IMO = v.IMO;
-                    db.Vessel.Find(id).Name = v.Name;
-                    db.Vessel.Find(id).Type = v.Type;
-                    db.Vessel.Find(id).AnnualCheckDate = v.AnnualCheckDate;
-                    db.Vessel.Find(id).MMSI = v.MMSI;
-                    db.Vessel.Find(id).CallSign = v.CallSign;
-                    db.Vessel.Find(id).GrossTonnage = v.GrossTonnage;
-                    db.Vessel.Find(id).Flag = v.Flag;
-                    db.Vessel.Find(id).CompanyID = v.CompanyID;
-                    
-                }
+                db.Temp.Add(new Temp { Type = "Vessel", ObjectID = id, SerializedObject = JsonConvert.SerializeObject(v), Date = DateTime.Now });
                 db.SaveChanges();
                 return Redirect("~/Fleet");
             }
             else
                 return Redirect("~/Login");
 
+
+        }
+        [HttpPost]
+        public ActionResult AcceptVesselChange(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                Vessel v = db.Temp.Find(id).NewVessel;
+                if (db.Vessel.Find(v.IMO) == null)
+                {
+                    db.Vessel.Add(v);
+                }
+                else
+                {
+                    db.Vessel.Find(v.IMO).Name = v.Name;
+                    db.Vessel.Find(v.IMO).Type = v.Type;
+                    db.Vessel.Find(v.IMO).AnnualCheckDate = v.AnnualCheckDate;
+                    db.Vessel.Find(v.IMO).MMSI = v.MMSI;
+                    db.Vessel.Find(v.IMO).CallSign = v.CallSign;
+                    db.Vessel.Find(v.IMO).GrossTonnage = v.GrossTonnage;
+                    db.Vessel.Find(v.IMO).Flag = v.Flag;
+                    db.Vessel.Find(v.IMO).CompanyID = v.CompanyID;
+                    db.Temp.Remove(db.Temp.Find(id));
+                };
+                db.SaveChanges();
+                return Redirect("~/Changes");
+            }
+            else
+                return Redirect("~/Login");
 
         }
         public ActionResult VesselDelete(int id)
@@ -179,7 +193,6 @@ namespace AlphatronMarineServer.Controllers
             else
                 return Redirect("~/Login");
         }
-
         [HttpPost]
         public ActionResult EquipmentTemplate(int id, int imo, Equipment eq)
         {
@@ -203,23 +216,50 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.EID = id;
-                if (id == 0)
+                eq.VesselIMO = imo;
+                db.Temp.Add(new Temp { Type = "Equipment", ObjectID = eq.SerialNumber, SerializedObject = JsonConvert.SerializeObject(eq), Date = DateTime.Now });
+                db.SaveChanges();
+                return Redirect("~/Vessel/" + imo + "/Equipment");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+        [HttpPost]
+        public ActionResult AcceptEquipChange(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken))
+            {
+                Equipment eq = db.Temp.Find(id).NewEquipment;
+                if (db.Equipment.Find(eq.SerialNumber) == null)
                 {
-                    eq.VesselIMO = imo;
                     db.Equipment.Add(eq);
                 }
                 else
                 {
-                    db.Equipment.Find(id).Model = eq.Model;
-                    db.Equipment.Find(id).Name = eq.Name;
-                    db.Equipment.Find(id).CheckDate = eq.CheckDate;
-                    db.Equipment.Find(id).Maker = eq.Maker;
-                    db.Equipment.Find(id).Remarks = eq.Remarks;
-                    db.Equipment.Find(id).VesselIMO = imo;
+                    db.Equipment.Find(eq.SerialNumber).Model = eq.Model;
+                    db.Equipment.Find(eq.SerialNumber).Name = eq.Name;
+                    db.Equipment.Find(eq.SerialNumber).CheckDate = eq.CheckDate;
+                    db.Equipment.Find(eq.SerialNumber).Maker = eq.Maker;
+                    db.Equipment.Find(eq.SerialNumber).Remarks = eq.Remarks;
+                    db.Temp.Remove(db.Temp.Find(id));
 
                 };
                 db.SaveChanges();
-                return Redirect("~/Vessel/" + imo+ "/Equipment");
+                return Redirect("~/Changes");
             }
             else
                 return Redirect("~/Login");
@@ -539,6 +579,8 @@ namespace AlphatronMarineServer.Controllers
                 return Redirect("~/Login");
 
         }
+
+        
 
     }
 }
