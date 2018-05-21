@@ -30,6 +30,7 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.VID = id;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
@@ -69,12 +70,13 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
-                
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.Part = "Fleet";
                 ViewBag.Users = db.User;
                 ViewBag.Access = db.VesselAccess;
+                v.IMO = id;
                 db.Temp.Add(new Temp { Type = "Vessel", ObjectID = id, SerializedObject = JsonConvert.SerializeObject(v), Date = DateTime.Now });
                 db.SaveChanges();
                 return Redirect("~/Fleet");
@@ -84,8 +86,8 @@ namespace AlphatronMarineServer.Controllers
 
 
         }
-        [HttpPost]
-        public ActionResult AcceptVesselChange(int id)
+        
+        public ActionResult AcceptVessel(int id)
         {
             int uid;
             string utoken;
@@ -100,7 +102,7 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
                 Vessel v = db.Temp.Find(id).NewVessel;
                 if (db.Vessel.Find(v.IMO) == null)
@@ -143,7 +145,8 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
                 {
-                    ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                     ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                     db.Vessel.Remove(db.Vessel.Find(id));
                     db.SaveChanges();
@@ -171,7 +174,7 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
-
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.VIMO = imo;
                 ViewBag.EquipmentTemplates = db.EquipmentTemplates;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
@@ -211,6 +214,7 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.VIMO = imo;
                 ViewBag.EquipmentTemplates = db.EquipmentTemplates;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
@@ -225,8 +229,7 @@ namespace AlphatronMarineServer.Controllers
                 return Redirect("~/Login");
 
         }
-        [HttpPost]
-        public ActionResult AcceptEquipChange(int id)
+        public ActionResult AcceptEquip(int id)
         {
             int uid;
             string utoken;
@@ -241,7 +244,7 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
                 Equipment eq = db.Temp.Find(id).NewEquipment;
                 if (db.Equipment.Find(eq.SerialNumber) == null)
@@ -280,6 +283,7 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
             ViewBag.User = auth.GetCurrentUser(cookie)["User"];
             ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
             if (auth.CheckAuthStatus(uid, utoken))
@@ -309,8 +313,9 @@ namespace AlphatronMarineServer.Controllers
                 utoken = null;
             }
 
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.UID = id;
@@ -348,8 +353,9 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 if (id == 0)
@@ -386,9 +392,10 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
             ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
-                if (auth.CheckAuthStatus(uid, utoken))
+                if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
                 {
                     db.User.Remove(db.User.Find(id));
                     db.SaveChanges();
@@ -417,8 +424,9 @@ namespace AlphatronMarineServer.Controllers
                 utoken = null;
             }
 
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.ETID = id;
@@ -454,8 +462,9 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 if (id == 0)
@@ -500,9 +509,10 @@ namespace AlphatronMarineServer.Controllers
                 uid = 0;
                 utoken = null;
             }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
             ViewBag.User = auth.GetCurrentUser(cookie)["User"];
             ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
-            if (auth.CheckAuthStatus(uid, utoken))
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
                 db.User.Remove(db.User.Find(id));
                 db.SaveChanges();
@@ -532,11 +542,11 @@ namespace AlphatronMarineServer.Controllers
 
             if (auth.CheckAuthStatus(uid, utoken))
             {
-
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.VIMO = imo;
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
-                ViewBag.Part = "Equipment";
+                ViewBag.Part = "Vessel";
                 Equipment e = db.Equipment.Find(id);
                 ViewBag.E = e;
                return View();
@@ -563,6 +573,7 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken))
             {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -571,7 +582,9 @@ namespace AlphatronMarineServer.Controllers
                     dic.Add(item, Request.Form[item]);
                  }
                 string encoded = JsonConvert.SerializeObject(dic);
-                db.Equipment.Find(id).Fields = encoded;
+                Equipment eq = db.Equipment.Find(id);
+                eq.Fields = encoded;
+                db.Temp.Add(new Temp { Type = "Equipment", ObjectID = eq.SerialNumber, SerializedObject = JsonConvert.SerializeObject(eq), Date = DateTime.Now });
                 db.SaveChanges();
                 return Redirect("~/Vessel/"+imo+"/Equipment");
             }
@@ -580,7 +593,99 @@ namespace AlphatronMarineServer.Controllers
 
         }
 
-        
+        [HttpGet]
+        public ActionResult ProductTemplate(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.UID = id;
+                ViewBag.Roles = db.Roles;
+                ViewBag.Companies = db.Company.OrderBy(a => a.Name);
+                ViewBag.Part = "Products";
+                if (id == 0)
+                {
+
+                    return View(new Product { });
+                }
+                else
+                {
+                    Product p = db.Product.Find(id);
+                    return View(p);
+                }
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpPost]
+        public ActionResult ProductTemplate(int id, Product p, HttpPostedFileBase Image = null)
+        {
+            string fullPath = null;
+            if (Image != null)
+            {
+
+
+                var path = System.IO.Path.GetFileName(Image.FileName);
+                fullPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
+                fullPath = fullPath.Replace(" ", "_");
+                Image.SaveAs(Server.MapPath(fullPath));
+                
+            }
+            p.Image = fullPath;
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                if (id == 0)
+                {
+                    
+                    db.Product.Add(p);
+                }
+                else
+                {
+                    db.Product.Find(id).Name = p.Name;
+                    db.Product.Find(id).ShortDescription = p.ShortDescription;
+                    db.Product.Find(id).FullDescription = p.FullDescription;
+                    db.Product.Find(id).Image = fullPath;
+                }
+                db.SaveChanges();
+                return Redirect("~/Products");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
 
     }
 }

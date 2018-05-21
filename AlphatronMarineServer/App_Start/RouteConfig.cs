@@ -44,7 +44,7 @@ namespace AlphatronMarineServer
             routes.MapRoute(
                 name: "AcceptVesselChanges",
                 url: "Change/Accept/Vessel/{id}",
-                defaults: new { controller = "CRUD", action = "AcceptVesselChange", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "AcceptVessel", id = UrlParameter.Optional }
             );
             //RouteTemplate
             routes.MapRoute(
@@ -84,7 +84,7 @@ namespace AlphatronMarineServer
             routes.MapRoute(
                 name: "AcceptEquipmentChanges",
                 url: "Change/Accept/Equipment/{id}",
-                defaults: new { controller = "CRUD", action = "AcceptEquipmentChanges", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "AcceptEquip", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "ETFields",
@@ -135,8 +135,30 @@ namespace AlphatronMarineServer
             );
 
 
+            //Products
+            routes.MapRoute(
+                name: "ProductTemplate",
+                url: "Product/{id}",
+                defaults: new { controller = "CRUD", action = "ProductTemplate", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "ProductDelete",
+                url: "Product/{id}/del",
+                defaults: new { controller = "CRUD", action = "ProductDelete", id = UrlParameter.Optional }
+            );
 
-            
+            //Locations
+            routes.MapRoute(
+                name: "LocationsTemplate",
+                url: "Location/{id}",
+                defaults: new { controller = "CRUD", action = "LocationsTemplate", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "LocationsDelete",
+                url: "Location/{id}/del",
+                defaults: new { controller = "CRUD", action = "LocationsDelete", id = UrlParameter.Optional }
+            );
+
 
         }
     }

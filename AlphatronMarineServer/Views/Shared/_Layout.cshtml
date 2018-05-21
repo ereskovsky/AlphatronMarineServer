@@ -64,8 +64,10 @@ else
                     <a href="~/Fleet"><i class="fa fa-tachometer"></i> <span class="nav-label">Fleet</span></a>
                 </li>
 }
-                    @if (ViewBag.Part == "Equipment")
+                    @if (ViewBag.RoleNum == "1")
     {
+        if (ViewBag.Part == "Equipment")
+        {
                 <li class="active">
                     <a href="~/EquipmentTemplates"><i class="fa fa-anchor"></i> <span class="nav-label">Equipment</span></a>
                 </li>
@@ -76,8 +78,11 @@ else
                     <a href="~/EquipmentTemplates"><i class="fa fa-anchor"></i> <span class="nav-label">Equipment</span></a>
                 </li>
 }
-                    @if (ViewBag.Part == "Users")
+}
+                    @if (ViewBag.RoleNum == "1")
     {
+        if (ViewBag.Part == "Users")
+        {
                 <li class="active">
                     <a href="~/Users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
                 </li>
@@ -88,22 +93,55 @@ else
                     <a href="~/Users"><i class="fa fa-users"></i> <span class="nav-label">Users</span></a>
                 </li>
 }
+}
+                    @if (ViewBag.RoleNum == "1")
+    {
+        if (ViewBag.Part == "Products")
+        {
+                <li class="active">
+                    <a href="~/Products"><i class="fa fa-dollar"></i> <span class="nav-label">Products</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/Products"><i class="fa fa-dollar"></i> <span class="nav-label">Products</span></a>
+                </li>
+}
 
-                    @if (ViewBag.RoleNum == "1") {
-                    if (ViewBag.Part == "Changes")
-                    {
+}
+                    @if (ViewBag.RoleNum == "1")
+    {
+        if (ViewBag.Part == "Locations")
+        {
+                <li class="active">
+                    <a href="~/Locations"><i class="fa fa-map-marker"></i> <span class="nav-label">Locations</span></a>
+                </li>
+}
+else
+{
+                <li>
+                    <a href="~/Locations"><i class="fa fa-map-marker"></i> <span class="nav-label">Locations</span></a>
+                </li>
+}
+
+}
+                    @if (ViewBag.RoleNum == "1")
+    {
+        if (ViewBag.Part == "Changes")
+        {
                 <li class="active">
                     <a href="~/Changes"><i class="fa fa-gear"></i> <span class="nav-label">Changes</span></a>
                 </li>
-                    }
-                    else
-                    {
+}
+else
+{
                 <li>
                     <a href="~/Changes"><i class="fa fa-gear"></i> <span class="nav-label">Changes</span></a>
                 </li>
-                    }
+}
 
-                    }
+}
 
                 </ul>
             </div>
