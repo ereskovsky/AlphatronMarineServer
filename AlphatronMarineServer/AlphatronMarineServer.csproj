@@ -211,6 +211,9 @@
     <Compile Include="Models\ProductBulletFact.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProductFiles.cs">
+      <DependentUpon>AlphatronModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Roles.cs">
       <DependentUpon>AlphatronModel.tt</DependentUpon>
     </Compile>
@@ -876,9 +879,13 @@
     <Content Include="Views\CRUD\ProductTemplate.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\Locations.cshtml" />
+    <Content Include="Views\CRUD\LocationTemplate.cshtml" />
+    <Content Include="Views\CRUD\PBFactTemplate.cshtml" />
+    <Content Include="Views\Home\PBFacts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\manuals\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

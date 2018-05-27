@@ -86,8 +86,8 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="255" />
-          <Property Name="ShortDescription" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="varchar(max)" />
+          <Property Name="ShortDescription" Type="varchar(max)" />
           <Property Name="FullDescription" Type="text" />
         </EntityType>
         <EntityType Name="ProductBulletFact">
@@ -96,6 +96,15 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fact" Type="text" />
+          <Property Name="ProductID" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductFiles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Manual" Type="varchar" MaxLength="255" />
+          <Property Name="Picture" Type="varchar" MaxLength="255" />
           <Property Name="ProductID" Type="int" />
         </EntityType>
         <EntityType Name="Roles">
@@ -113,6 +122,7 @@
           <Property Name="Type" Type="varchar(max)" />
           <Property Name="ObjectID" Type="int" />
           <Property Name="SerializedObject" Type="text" />
+          <Property Name="Date" Type="date" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -139,6 +149,7 @@
           <Property Name="Flag" Type="int" />
           <Property Name="CompanyID" Type="int" />
           <Property Name="AnnualCheckDate" Type="date" />
+          <Property Name="Picture" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="VesselAccess">
           <Key>
@@ -173,13 +184,29 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductBulletFact_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ProductBulletFact" Type="Self.ProductBulletFact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ProductBulletFact">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFiles_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductFiles" Type="Self.ProductFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductFiles">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
@@ -270,6 +297,7 @@
           <EntitySet Name="General" EntityType="Self.General" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductFiles" EntityType="Self.ProductFiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Temp" EntityType="Self.Temp" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -286,6 +314,10 @@
           <AssociationSet Name="FK_ProductBulletFact_Product" Association="Self.FK_ProductBulletFact_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductBulletFact" EntitySet="ProductBulletFact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFiles_Product" Association="Self.FK_ProductFiles_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductFiles" EntitySet="ProductFiles" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Company" Association="Self.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
@@ -404,10 +436,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ShortDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ShortDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="FullDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ProductBulletFact" Relationship="Self.FK_ProductBulletFact_Product" FromRole="Product" ToRole="ProductBulletFact" />
+          <NavigationProperty Name="ProductFiles" Relationship="Self.FK_ProductFiles_Product" FromRole="Product" ToRole="ProductFiles" />
         </EntityType>
         <EntityType Name="ProductBulletFact">
           <Key>
@@ -417,6 +450,16 @@
           <Property Name="Fact" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ProductID" Type="Int32" />
           <NavigationProperty Name="Product" Relationship="Self.FK_ProductBulletFact_Product" FromRole="ProductBulletFact" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductFiles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Manual" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Picture" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="ProductID" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_ProductFiles_Product" FromRole="ProductFiles" ToRole="Product" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -434,6 +477,7 @@
           <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ObjectID" Type="Int32" />
           <Property Name="SerializedObject" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -463,6 +507,7 @@
           <Property Name="Flag" Type="Int32" />
           <Property Name="CompanyID" Type="Int32" />
           <Property Name="AnnualCheckDate" Type="DateTime" Precision="0" />
+          <Property Name="Picture" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Vessel_Company" FromRole="Vessel" ToRole="Company" />
           <NavigationProperty Name="Country" Relationship="Self.FK_Vessel_Country" FromRole="Vessel" ToRole="Country" />
           <NavigationProperty Name="Equipment" Relationship="Self.FK_Equipment_Vessel" FromRole="Vessel" ToRole="Equipment" />
@@ -539,13 +584,29 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ProductBulletFact_Product">
-          <End Role="Product" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="ProductBulletFact" Type="Self.ProductBulletFact" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Product">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ProductBulletFact">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductFiles_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductFiles" Type="Self.ProductFiles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductFiles">
               <PropertyRef Name="ProductID" />
             </Dependent>
           </ReferentialConstraint>
@@ -600,6 +661,7 @@
           <EntitySet Name="General" EntityType="Self.General" />
           <EntitySet Name="Product" EntityType="Self.Product" />
           <EntitySet Name="ProductBulletFact" EntityType="Self.ProductBulletFact" />
+          <EntitySet Name="ProductFiles" EntityType="Self.ProductFiles" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Temp" EntityType="Self.Temp" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -628,6 +690,10 @@
           <AssociationSet Name="FK_ProductBulletFact_Product" Association="Self.FK_ProductBulletFact_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="ProductBulletFact" EntitySet="ProductBulletFact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductFiles_Product" Association="Self.FK_ProductFiles_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductFiles" EntitySet="ProductFiles" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Roles" Association="Self.FK_User_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -750,6 +816,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="ProductFiles">
+            <EntityTypeMapping TypeName="AlphatronModel.ProductFiles">
+              <MappingFragment StoreEntitySet="ProductFiles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Manual" ColumnName="Manual" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="AlphatronModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
@@ -765,6 +841,7 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="ObjectID" ColumnName="ObjectID" />
                 <ScalarProperty Name="SerializedObject" ColumnName="SerializedObject" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -793,6 +870,7 @@
                 <ScalarProperty Name="Flag" ColumnName="Flag" />
                 <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
                 <ScalarProperty Name="AnnualCheckDate" ColumnName="AnnualCheckDate" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

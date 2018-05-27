@@ -36,7 +36,12 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Picture</label>
 
-                            <div class="col-sm-5"><input type="file" name="Image" class="form-control" value="@Model.Image"></div>
+                            <div class="col-sm-5"><input type="file" name="Picture" class="form-control"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Manual</label>
+
+                            <div class="col-sm-5"><input type="file" name="Manual" class="form-control"></div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Short Description</label>
@@ -46,7 +51,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Full Description</label>
 
-                            <div class="col-sm-5"><input style="height: 300px" type="text" name="FullDescription" class="form-control" value="@Model.FullDescription"></div>
+                            <div class="col-sm-5"><textarea style="height: 300px" type="text" name="FullDescription" class="form-control" >@Model.FullDescription</textarea></div>
                         </div>
 
                         <a href="~/Products" style="text-decoration: none; color: #676a6c"><button class="btn btn-white" type="button">Back</button></a>

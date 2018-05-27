@@ -28,7 +28,6 @@ namespace AlphatronMarineServer.Models
         public string Name { get; set; }
         public int RoleID { get; set; }
         public Nullable<int> CompanyID { get; set; }
-    
         public virtual Company Company { get; set; }
         public virtual Roles Roles { get; set; }
         [JsonIgnore]

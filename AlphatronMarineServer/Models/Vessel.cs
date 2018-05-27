@@ -37,6 +37,8 @@ namespace AlphatronMarineServer.Models
         public Nullable<int> CompanyID { get; set; }
         public DateTime AnnualCheckDate { get; set; }
 
+        public string Picture { get; set; }
+
         public virtual ICollection<Temp> Temp {
             get
             {

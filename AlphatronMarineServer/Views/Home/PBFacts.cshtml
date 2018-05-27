@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-2">
         <div class="ibox-title" style="border: none; padding: 28px 15px 7px">
-            <a class="btn btn-primary " href="~/Product/0">Add Product</a>
+            <a class="btn btn-primary " href="~/Product/@ViewBag.PID/Fact/0">Add Fact</a>
         </div>
     </div>
 </div>
@@ -56,21 +56,19 @@
                             <tr>
 
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Picture</th>
+                                <th>Fact</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in ViewBag.Products)
+                            @foreach (var item in ViewBag.Facts)
                             {
                                 <tr>
                                     <td>@item.ID</td>
-                                    <td><a href="Product/@item.ID/Facts"> @item.Name </a></td>
-                                    <td><img style="width:40px" src="@item.Picture"/></td>
+                                    <td>@item.Fact</td>
                                     <td>
-                                        <a href="~/Product/@item.ID"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                        <a id="del" href="~/Product/@item.ID/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                        <a href="~/Product/@item.ProductID/Fact/@item.ID"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
+                                        <a id="del" href="~/Product/@item.ProductID/Fact/@item.ID/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
                                     </td>
                                 </tr>
                             }
