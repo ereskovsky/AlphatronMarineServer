@@ -59,7 +59,29 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.Part = "Fleet";
-                ViewBag.Vessels = db.Vessel;
+                if (int.Parse(auth.GetCurrentUser(cookie)["Role"]) == 1) {
+                    ViewBag.Vessels = db.Vessel;
+                }
+                else if (int.Parse(auth.GetCurrentUser(cookie)["Role"]) == 4)
+                {
+                    List<Vessel> list = new List<Vessel>();
+                    Company c = db.User.Find(uid).Company;
+                    foreach (var item in db.Vessel.Where(x => x.Company.ID == c.ID))
+                    {
+                        list.Add(item);
+                    }
+                    ViewBag.Vessels = list;
+                    
+                }
+                else
+                {
+                    List<Vessel> list = new List<Vessel>();
+                    foreach (var item in db.VesselAccess.Where(x => x.SuperIntendantID == uid))
+                    {
+                        list.Add(item.Vessel);
+                    }
+                    ViewBag.Vessels = list;
+                }
                 return View();
             }
             else
@@ -91,6 +113,40 @@ namespace AlphatronMarineServer.Controllers
                     }
                 else
                     return Redirect("~/Login");
+        }
+        public ActionResult AssignedVessels(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.Part = "Users";
+                List<Vessel> list = new List<Vessel>();
+                foreach (var item in db.VesselAccess.Where(x=>x.SuperIntendantID == id))
+                {
+                    list.Add(item.Vessel);
+                }
+                ViewBag.UID = id;
+                ViewBag.Vessels = list;
+                ViewBag.AllVessels = db.Vessel;
+                return View();
+            }
+            else
+                return Redirect("~/Login");
         }
         public ActionResult Equipment(int imo)
         {

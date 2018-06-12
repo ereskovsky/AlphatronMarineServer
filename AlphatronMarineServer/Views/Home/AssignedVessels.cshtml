@@ -1,0 +1,87 @@
+﻿
+
+<div style="margin-left:0px" class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Assigned Vessels</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="~/">Home</a>
+            </li>
+            <li>
+                <a href="~/Users">Users</a>
+            </li>
+            <li class="active">
+                <strong>Assigned Vessels</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-6">
+        <div class="ibox-title" style="border: none; padding: 28px 15px 7px">
+            <form method="post" action="/User/@ViewBag.UID/Vessels/Assign" enctype="multipart/form-data">
+                <div style="display:none" class="form-group">
+                    <label class="col-sm-2 control-label">ID</label>
+                    <div class="col-sm-5"><input type="text" name="id" class="form-control" value="@ViewBag.UID"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Assign vessel</label>
+                    <div class="col-sm-5">
+                        <select class="form-control m-b" name="imo">
+
+                            @foreach (var item in ViewBag.AllVessels)
+
+                {
+                    <option value="@item.IMO">@item.IMO - @item.Name</option>
+    }
+                        </select>
+
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+
+                <div class="ibox-content">
+
+                    <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
+                        <thead>
+                            <tr>
+
+                                <th>IMO</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.Vessels)
+                            {
+                                <tr>
+                                    <td>@item.IMO</td>
+                                    <td>@item.Name </td>
+                                    <td>
+                                        <a id="del" href="~/User/@ViewBag.UID/Vessels/@item.IMO/Unassign"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <ul class="pagination pull-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

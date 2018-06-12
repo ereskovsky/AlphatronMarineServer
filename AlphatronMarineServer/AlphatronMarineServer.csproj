@@ -882,6 +882,7 @@
     <Content Include="Views\CRUD\LocationTemplate.cshtml" />
     <Content Include="Views\CRUD\PBFactTemplate.cshtml" />
     <Content Include="Views\Home\PBFacts.cshtml" />
+    <Content Include="Views\Home\AssignedVessels.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

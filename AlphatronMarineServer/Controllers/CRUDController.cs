@@ -139,6 +139,56 @@ namespace AlphatronMarineServer.Controllers
                 return Redirect("~/Login");
 
         }
+        public ActionResult AssignVessel(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.VesselAccess.Add(new VesselAccess { SuperIntendantID = int.Parse(Request.Form["id"]), VesselIMO = int.Parse(Request.Form["imo"]) });
+                db.SaveChanges();
+                return Redirect("~/Users/" + Request.Form["id"] + "/Vessels");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+        public ActionResult UnassignVessel(int id, int imo)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.VesselAccess.Remove(db.VesselAccess.Where(x=>x.VesselIMO == imo && x.SuperIntendantID == id).FirstOrDefault());
+                db.SaveChanges();
+                return Redirect("~/Users/" + id + "/Vessels");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
 
         public ActionResult DeclineChange(int id)
         {

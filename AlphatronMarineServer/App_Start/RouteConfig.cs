@@ -139,6 +139,21 @@ namespace AlphatronMarineServer
                 url: "User/{id}/del",
                 defaults: new { controller = "CRUD", action = "UserDelete", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "AssignedVessel",
+                url: "Users/{id}/Vessels",
+                defaults: new { controller = "Home", action = "AssignedVessels", id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "AssignVessel",
+                url: "User/{id}/Vessels/Assign",
+                defaults: new { controller = "CRUD", action = "AssignVessel", id = UrlParameter.Optional, imo = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "UnassignVessel",
+                url: "User/{id}/Vessels/{imo}/Unassign",
+                defaults: new { controller = "CRUD", action = "UnassignVessel", id = UrlParameter.Optional, imo = UrlParameter.Optional }
+            );
 
 
             //Products
