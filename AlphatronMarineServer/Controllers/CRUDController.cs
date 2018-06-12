@@ -635,20 +635,20 @@ namespace AlphatronMarineServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProductTemplate(int id, Product p, HttpPostedFileBase Image = null)
+        public ActionResult ProductTemplate(int id, Product p, HttpPostedFileBase Picture = null)
         {
             string fullPath = null;
-            if (Image != null)
+            if (Picture != null)
             {
 
 
-                var path = System.IO.Path.GetFileName(Image.FileName);
+                var path = System.IO.Path.GetFileName(Picture.FileName);
                 fullPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
                 fullPath = fullPath.Replace(" ", "_");
-                Image.SaveAs(Server.MapPath(fullPath));
+                Picture.SaveAs(Server.MapPath(fullPath));
                 
             }
-            p.Image = fullPath;
+            p.Picture = fullPath;
             int uid;
             string utoken;
             HttpCookie cookie = Request.Cookies["User"];
@@ -677,8 +677,10 @@ namespace AlphatronMarineServer.Controllers
                     db.Product.Find(id).Name = p.Name;
                     db.Product.Find(id).ShortDescription = p.ShortDescription;
                     db.Product.Find(id).FullDescription = p.FullDescription;
-                    db.Product.Find(id).Image = fullPath;
+                    db.Product.Find(id).Picture = fullPath;
                 }
+                db.SaveChanges();
+                db.Product.Find(p.ID).Picture = fullPath;
                 db.SaveChanges();
                 return Redirect("~/Products");
             }

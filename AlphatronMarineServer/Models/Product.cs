@@ -21,10 +21,10 @@ namespace AlphatronMarineServer.Models
         }
     
         public int ID { get; set; }
-        public string Image { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public string FullDescription { get; set; }
+        public string Picture { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductBulletFact> ProductBulletFact { get; set; }
