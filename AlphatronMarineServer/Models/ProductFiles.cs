@@ -12,10 +12,11 @@ namespace AlphatronMarineServer.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductBulletFact
+    public partial class ProductFiles
     {
         public int ID { get; set; }
-        public string Fact { get; set; }
+        public string Manual { get; set; }
+        public string Picture { get; set; }
         public Nullable<int> ProductID { get; set; }
     
         public virtual Product Product { get; set; }

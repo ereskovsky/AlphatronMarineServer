@@ -34,6 +34,7 @@ namespace AlphatronMarineServer.Models
         public virtual DbSet<General> General { get; set; }
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductBulletFact> ProductBulletFact { get; set; }
+        public virtual DbSet<ProductFiles> ProductFiles { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Temp> Temp { get; set; }
         public virtual DbSet<User> User { get; set; }

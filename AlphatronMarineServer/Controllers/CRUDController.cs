@@ -53,8 +53,17 @@ namespace AlphatronMarineServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult VesselTemplate(int id, Vessel v)
+        public ActionResult VesselTemplate(int id, Vessel v, HttpPostedFileBase Picture = null)
         {
+            string fullPath = null;
+
+            if (Picture != null)
+            {
+                var path = System.IO.Path.GetFileName(Picture.FileName);
+                fullPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
+                fullPath = fullPath.Replace(" ", "_");
+                Picture.SaveAs(Server.MapPath(fullPath));
+            }
             int uid;
             string utoken;
             HttpCookie cookie = Request.Cookies["User"];
@@ -77,6 +86,7 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.Users = db.User;
                 ViewBag.Access = db.VesselAccess;
                 v.IMO = id;
+                v.Picture = fullPath;
                 db.Temp.Add(new Temp { Type = "Vessel", ObjectID = id, SerializedObject = JsonConvert.SerializeObject(v), Date = DateTime.Now });
                 db.SaveChanges();
                 return Redirect("~/Fleet");
@@ -119,6 +129,7 @@ namespace AlphatronMarineServer.Controllers
                     db.Vessel.Find(v.IMO).GrossTonnage = v.GrossTonnage;
                     db.Vessel.Find(v.IMO).Flag = v.Flag;
                     db.Vessel.Find(v.IMO).CompanyID = v.CompanyID;
+                    db.Vessel.Find(v.IMO).Picture = v.Picture;
                     db.Temp.Remove(db.Temp.Find(id));
                 };
                 db.SaveChanges();
@@ -635,20 +646,25 @@ namespace AlphatronMarineServer.Controllers
         }
 
         [HttpPost]
-        public ActionResult ProductTemplate(int id, Product p, HttpPostedFileBase Picture = null)
+        public ActionResult ProductTemplate(int id, Product p, HttpPostedFileBase Picture = null, HttpPostedFileBase Manual = null)
         {
-            string fullPath = null;
+            string fullPicPath = null;
+            string fullManPath = null;
             if (Picture != null)
             {
-
-
                 var path = System.IO.Path.GetFileName(Picture.FileName);
-                fullPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
-                fullPath = fullPath.Replace(" ", "_");
-                Picture.SaveAs(Server.MapPath(fullPath));
-                
+                fullPicPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
+                fullPicPath = fullPicPath.Replace(" ", "_");
+                Picture.SaveAs(Server.MapPath(fullPicPath));
             }
-            p.Picture = fullPath;
+            if (Manual != null)
+            {
+                var path = System.IO.Path.GetFileName(Manual.FileName);
+                fullManPath = "/Content/manuals/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
+                fullManPath = fullManPath.Replace(" ", "_");
+                Manual.SaveAs(Server.MapPath(fullManPath));
+            }
+
             int uid;
             string utoken;
             HttpCookie cookie = Request.Cookies["User"];
@@ -671,22 +687,296 @@ namespace AlphatronMarineServer.Controllers
                 {
                     
                     db.Product.Add(p);
+                    db.SaveChanges();
+                    ProductFiles pf = new ProductFiles { Manual = fullManPath, Picture = fullPicPath, ProductID = p.ID };
+                    db.ProductFiles.Add(pf);
+                    db.SaveChanges();
+                    
                 }
                 else
                 {
                     db.Product.Find(id).Name = p.Name;
                     db.Product.Find(id).ShortDescription = p.ShortDescription;
                     db.Product.Find(id).FullDescription = p.FullDescription;
-                    db.Product.Find(id).Picture = fullPath;
+                    if (Manual != null)
+                    {
+                        db.ProductFiles.Where(x => x.ProductID == p.ID).FirstOrDefault().Manual = fullManPath;
+                    }
+                    if (Picture != null)
+                    {
+                        db.ProductFiles.Where(x => x.ProductID == p.ID).FirstOrDefault().Picture = fullPicPath;
+                    }
+                    
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
-                db.Product.Find(p.ID).Picture = fullPath;
-                db.SaveChanges();
+                
                 return Redirect("~/Products");
             }
             else
                 return Redirect("~/Login");
 
+        }
+        public ActionResult ProductDelete(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.Product.Remove(db.Product.Find(id));
+                db.SaveChanges();
+
+                return Redirect("~/Products");
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpGet]
+        public ActionResult LocationTemplate(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.UID = id;
+                ViewBag.Roles = db.Roles;
+                ViewBag.Companies = db.Company.OrderBy(a => a.Name);
+                ViewBag.Part = "Locations";
+                if (id == 0)
+                {
+
+                    return View(new BusinessLocation { });
+                }
+                else
+                {
+                    BusinessLocation a = db.BusinessLocation.Find(id);
+                    return View(a);
+                }
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpPost]
+        public ActionResult LocationTemplate(int id, BusinessLocation u, HttpPostedFileBase ImageURL = null)
+        {
+            string fullPath = null;
+            if (ImageURL != null)
+            {
+
+
+                var path = System.IO.Path.GetFileName(ImageURL.FileName);
+                fullPath = "/Content/images/" + MD5Hasher.Hash(DateTime.Now.ToShortTimeString() + DateTime.Now.ToShortDateString()) + path;
+                fullPath = fullPath.Replace(" ", "_");
+                ImageURL.SaveAs(Server.MapPath(fullPath));
+
+            }
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                if (id == 0)
+                {
+                    u.ImageURL = fullPath;
+                    db.BusinessLocation.Add(u);
+                }
+                else
+                {
+                    db.BusinessLocation.Find(id).Name = u.Name;
+                    db.BusinessLocation.Find(id).Email = u.Email;
+                    db.BusinessLocation.Find(id).Description = u.Description;
+                    db.BusinessLocation.Find(id).ImageURL = fullPath;
+                    db.BusinessLocation.Find(id).IsPartner = u.IsPartner;
+                    db.BusinessLocation.Find(id).Latitude = u.Latitude;
+                    db.BusinessLocation.Find(id).Longtitude = u.Longtitude;
+                    db.BusinessLocation.Find(id).PhoneNumber = u.PhoneNumber;
+                }
+                db.SaveChanges();
+                return Redirect("~/Locations");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+        public ActionResult LocationDelete(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.BusinessLocation.Remove(db.BusinessLocation.Find(id));
+                db.SaveChanges();
+
+                return Redirect("~/Locations");
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+
+        [HttpGet]
+        public ActionResult PBFactTemplate(int id, int fact_id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.PID = id;
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.UID = id;
+                ViewBag.Roles = db.Roles;
+                ViewBag.Companies = db.Company.OrderBy(a => a.Name);
+                ViewBag.Part = "Products";
+                if (fact_id == 0)
+                {
+
+                    return View(new ProductBulletFact { });
+                }
+                else
+                {
+                    ProductBulletFact a = db.ProductBulletFact.Find(fact_id);
+                    return View(a);
+                }
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        [HttpPost]
+        public ActionResult PBFactTemplate(int id, int fact_id, ProductBulletFact u)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                if (fact_id == 0)
+                {
+                    u.ProductID = int.Parse(Request.Form["PID"]);
+                    db.ProductBulletFact.Add(u);
+                }
+                else
+                {
+                    db.ProductBulletFact.Find(id).Fact = u.Fact;
+                }
+                db.SaveChanges();
+                return Redirect("~/Product/" + int.Parse(Request.Form["PID"]) + "/Facts");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+        public ActionResult PBFactDelete(int id, int fact_id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+            ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+            ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.ProductBulletFact.Remove(db.ProductBulletFact.Find(fact_id));
+                db.SaveChanges();
+
+                return Redirect("~/Product/" + id +"/Facts");
+            }
+            else
+                return Redirect("~/Login");
         }
 
     }

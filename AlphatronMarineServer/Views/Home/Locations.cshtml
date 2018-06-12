@@ -17,7 +17,7 @@
     </div>
     <div class="col-lg-2">
         <div class="ibox-title" style="border: none; padding: 28px 15px 7px">
-            <a class="btn btn-primary " href="~/Vessel/0">Add Vessel</a>
+            <a class="btn btn-primary " href="~/Location/0">Add location</a>
         </div>
     </div>
 </div>
@@ -57,7 +57,8 @@
 
                                 <th>ID</th>
                                 <th>Name</th>
-                                <th>Description</th>
+                                <th>Latitude</th>
+                                <th>Longtitude</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -66,10 +67,12 @@
                             <tr>
                                 <td>@item.ID</td>
                                 <td> @item.Name</td>
-                                <td>@item.Description</td>
+                                <td> @item.Latitude</td>
+                                <td>@item.Longtitude</td>
+                                <td><img style="width: 20px" src="@item.ImageURL" /></td>
                                 <td>
-                                    <a href="~/Vessel/@item.IMO"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                    <a id="del" href="~/Vessel/@item.IMO/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                    <a href="~/Location/@item.ID"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
+                                    <a id="del" href="~/Location/@item.ID/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
                                 </td>
                             </tr>
                             }

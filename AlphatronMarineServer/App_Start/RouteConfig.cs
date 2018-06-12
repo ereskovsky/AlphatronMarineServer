@@ -146,17 +146,34 @@ namespace AlphatronMarineServer
                 url: "Product/{id}/del",
                 defaults: new { controller = "CRUD", action = "ProductDelete", id = UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "PBFacts",
+                url: "Product/{id}/Facts",
+                defaults: new { controller = "Home", action = "PBFacts", id = UrlParameter.Optional }
+            );
+
+            //PBFacts
+            routes.MapRoute(
+                name: "PBFactTemplate",
+                url: "Product/{id}/Fact/{fact_id}",
+                defaults: new { controller = "CRUD", action = "PBFactTemplate", id = UrlParameter.Optional, fact_id = UrlParameter.Optional }
+            );
+            routes.MapRoute(
+                name: "PBFactDelete",
+                url: "Product/{id}/Fact/{fact_id}/del",
+                defaults: new { controller = "CRUD", action = "PBFactDelete", id = UrlParameter.Optional, fact_id = UrlParameter.Optional }
+            );
 
             //Locations
             routes.MapRoute(
                 name: "LocationsTemplate",
                 url: "Location/{id}",
-                defaults: new { controller = "CRUD", action = "LocationsTemplate", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "LocationTemplate", id = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "LocationsDelete",
                 url: "Location/{id}/del",
-                defaults: new { controller = "CRUD", action = "LocationsDelete", id = UrlParameter.Optional }
+                defaults: new { controller = "CRUD", action = "LocationDelete", id = UrlParameter.Optional }
             );
 
 

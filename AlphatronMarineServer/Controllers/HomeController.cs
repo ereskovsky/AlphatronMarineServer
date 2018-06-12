@@ -192,11 +192,41 @@ namespace AlphatronMarineServer.Controllers
             }
             if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
             {
+                ViewBag.db = db;
                 ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
                 ViewBag.User = auth.GetCurrentUser(cookie)["User"];
                 ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
                 ViewBag.Part = "Products";
                 ViewBag.Products = db.Product;
+                return View();
+            }
+            else
+                return Redirect("~/Login");
+        }
+
+        public ActionResult PBFacts(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                ViewBag.RoleNum = auth.GetCurrentUser(cookie)["Role"];
+                ViewBag.User = auth.GetCurrentUser(cookie)["User"];
+                ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
+                ViewBag.Part = "Products";
+                ViewBag.PID = id;
+                ViewBag.Facts = db.ProductBulletFact.Where(x=>x.ProductID == id);
                 return View();
             }
             else
