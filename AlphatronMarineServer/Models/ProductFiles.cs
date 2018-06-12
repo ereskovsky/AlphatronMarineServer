@@ -9,16 +9,19 @@
 
 namespace AlphatronMarineServer.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
     public partial class ProductFiles
     {
         public int ID { get; set; }
         public string Manual { get; set; }
         public string Picture { get; set; }
         public Nullable<int> ProductID { get; set; }
-    
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual Product Product { get; set; }
     }
 }

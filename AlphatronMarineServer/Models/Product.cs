@@ -37,10 +37,11 @@ namespace AlphatronMarineServer.Models
         {
             get { return db.ProductFiles.Where(x => x.ProductID == ID).FirstOrDefault().Manual; }
         }
-        [JsonIgnore]
-        [IgnoreDataMember]
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductBulletFact> ProductBulletFact { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductFiles> ProductFiles { get; set; }
     }

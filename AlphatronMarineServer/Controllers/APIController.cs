@@ -18,7 +18,7 @@ namespace AlphatronMarineServer.Controllers
         {
             if (auth.CheckAuthStatus(user_id, token))
             {
-                return ApiModel.GetUsersVesselsList(id);
+                return JsonConvert.SerializeObject(ApiModel.GetUsersVesselsList(id));
             }
             return "Not authorized for this";
         }
@@ -115,7 +115,15 @@ namespace AlphatronMarineServer.Controllers
             }
             return "Not authorized for this";
         }
-        public string GetEquipmentByIMO(int user_id, string token, int serial)
+        public string GetTemp(int user_id, string token, int object_id)
+        {
+            if (auth.CheckAuthStatus(user_id, token))
+            {
+                return ApiModel.GetTemp(object_id);
+            }
+            return "Not authorized for this";
+        }
+        public string GetEquipmentBySerial(int user_id, string token, int serial)
         {
             if (auth.CheckAuthStatus(user_id, token))
             {

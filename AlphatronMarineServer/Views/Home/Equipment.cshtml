@@ -2,16 +2,16 @@
 
 <div style="margin-left:0px" class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>FooTable</h2>
+        <h2>Equipment</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="~/">Home</a>
             </li>
             <li>
-                <a>Tables</a>
+                <a href="~/Fleet">Fleet</a>
             </li>
             <li class="active">
-                <strong>FooTable</strong>
+                <strong>Equipment</strong>
             </li>
         </ol>
     </div>
@@ -26,29 +26,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>FooTable with row toggler, sorting and pagination</h5>
-
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li>
-                                <a href="#">Config option 1</a>
-                            </li>
-                            <li>
-                                <a href="#">Config option 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
-                </div>
+               
                 <div class="ibox-content">
 
                     <table class="footable table table-stripped toggle-arrow-tiny" data-page-size="8">
@@ -76,7 +54,7 @@
                                 <td>@item.Vessel.IMO - @item.Vessel.Name</td>
                                 <td>
                                     <a href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber"><i class="fa fa-edit" style="color: #1ab394 !important"></i></a>
-                                    <a id="del" href="~/Vessel/@ViewBag.VIMOEquipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
+                                    <a id="del" href="~/Vessel/@ViewBag.VIMO/Equipment/@item.SerialNumber/del"><i class="fa fa-trash-o" style="color: #1ab394 !important"></i></a>
                                 </td>
                             </tr>
                             }

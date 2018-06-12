@@ -85,9 +85,8 @@ namespace AlphatronMarineServer.Controllers
                 ViewBag.Part = "Fleet";
                 ViewBag.Users = db.User;
                 ViewBag.Access = db.VesselAccess;
-                v.IMO = id;
                 v.Picture = fullPath;
-                db.Temp.Add(new Temp { Type = "Vessel", ObjectID = id, SerializedObject = JsonConvert.SerializeObject(v), Date = DateTime.Now });
+                db.Temp.Add(new Temp { Type = "Vessel", ObjectID = v.IMO, SerializedObject = JsonConvert.SerializeObject(v), Date = DateTime.Now });
                 db.SaveChanges();
                 return Redirect("~/Fleet");
             }
@@ -118,6 +117,7 @@ namespace AlphatronMarineServer.Controllers
                 if (db.Vessel.Find(v.IMO) == null)
                 {
                     db.Vessel.Add(v);
+                    db.Temp.Remove(db.Temp.Find(id));
                 }
                 else
                 {
@@ -139,6 +139,33 @@ namespace AlphatronMarineServer.Controllers
                 return Redirect("~/Login");
 
         }
+
+        public ActionResult DeclineChange(int id)
+        {
+            int uid;
+            string utoken;
+            HttpCookie cookie = Request.Cookies["User"];
+            if (cookie != null)
+            {
+                uid = int.Parse(cookie["id"]);
+                utoken = cookie["token"];
+            }
+            else
+            {
+                uid = 0;
+                utoken = null;
+            }
+            if (auth.CheckAuthStatus(uid, utoken) && auth.GetCurrentUser(cookie)["Role"] == "1")
+            {
+                db.Temp.Remove(db.Temp.Find(id));
+                db.SaveChanges();
+                return Redirect("~/Changes");
+            }
+            else
+                return Redirect("~/Login");
+
+        }
+
         public ActionResult VesselDelete(int id)
         {
             int uid;
@@ -269,6 +296,7 @@ namespace AlphatronMarineServer.Controllers
                     db.Equipment.Find(eq.SerialNumber).CheckDate = eq.CheckDate;
                     db.Equipment.Find(eq.SerialNumber).Maker = eq.Maker;
                     db.Equipment.Find(eq.SerialNumber).Remarks = eq.Remarks;
+                    db.Equipment.Find(eq.SerialNumber).Fields = eq.Fields;
                     db.Temp.Remove(db.Temp.Find(id));
 
                 };
@@ -279,7 +307,7 @@ namespace AlphatronMarineServer.Controllers
                 return Redirect("~/Login");
 
         }
-        public ActionResult EquipmentDelete(int id)
+        public ActionResult EquipmentDelete(int id, int eid)
         {
             int uid;
             string utoken;
@@ -299,10 +327,10 @@ namespace AlphatronMarineServer.Controllers
             ViewBag.Role = db.Roles.Find(int.Parse(auth.GetCurrentUser(cookie)["Role"])).Name;
             if (auth.CheckAuthStatus(uid, utoken))
             {
-                db.Equipment.Remove(db.Equipment.Find(id));
+                db.Equipment.Remove(db.Equipment.Find(eid));
                 db.SaveChanges();
 
-                return Redirect("~/Equipment");
+                return Redirect("~/Vessel/" + id + "/Equipment");
             }
             else
                 return Redirect("~/Login");

@@ -78,8 +78,8 @@ namespace AlphatronMarineServer
             );
             routes.MapRoute(
                 name: "EquipDelete",
-                url: "Equipment/{id}/del",
-                defaults: new { controller = "CRUD", action = "EquipmentDelete", id = UrlParameter.Optional }
+                url: "Vessel/{id}/Equipment/{eid}/del",
+                defaults: new { controller = "CRUD", action = "EquipmentDelete", id = UrlParameter.Optional,  eid = UrlParameter.Optional }
             );
             routes.MapRoute(
                 name: "AcceptEquipmentChanges",
@@ -107,6 +107,12 @@ namespace AlphatronMarineServer
             routes.MapRoute(
                 name: "ETDelete",
                 url: "ETDelete/{id}/del",
+                defaults: new { controller = "CRUD", action = "ETDelete", id = UrlParameter.Optional }
+            );
+            //Changes
+            routes.MapRoute(
+                name: "DeclineChange",
+                url: "Change/Decline/{id}/del",
                 defaults: new { controller = "CRUD", action = "ETDelete", id = UrlParameter.Optional }
             );
 

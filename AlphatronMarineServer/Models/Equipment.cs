@@ -22,8 +22,7 @@ namespace AlphatronMarineServer.Models
         public string Maker { get; set; }
         public string Remarks { get; set; }
         public Nullable<int> VesselIMO { get; set; }
-        [JsonIgnore]
-        [IgnoreDataMember]
+        
         public string Fields { get; set; }
         public Nullable<int> TemplateID { get; set; }
         public DateTime CheckDate { get; set; }

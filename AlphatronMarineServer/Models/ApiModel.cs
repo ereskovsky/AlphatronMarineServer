@@ -11,7 +11,7 @@ namespace AlphatronMarineServer.Models
     {
         static AuthController auth = new AuthController();
         static AlphatronMarineEntities db = new AlphatronMarineEntities();
-        public static string GetUsersVesselsList(int id)
+        public static List<Vessel> GetUsersVesselsList(int id)
         {
             List<Vessel> vessels = new List<Vessel>();
             var q = db.VesselAccess.Where(x => x.SuperIntendantID == id);
@@ -23,10 +23,10 @@ namespace AlphatronMarineServer.Models
             }
             if (vessels != null)
             {
-                var encoded = JsonConvert.SerializeObject(vessels);
-                return encoded;
+                
+                return vessels;
             }
-            return "Something went wrong ¯\\_(ツ)_/¯ ";
+            return null;
 
         }
         public static string GetVesselByIMO(int id)
@@ -162,7 +162,7 @@ namespace AlphatronMarineServer.Models
         public static string EditEquip(string newobj)
         {
             Equipment v = JsonConvert.DeserializeObject<Equipment>(newobj);
-            if (db.Vessel.Find(v.SerialNumber) != null)
+            if (db.Equipment.Find(v.SerialNumber) != null)
             {
                 
                 db.Temp.Add(new Temp { ObjectID = v.SerialNumber, Type = "Equipment", SerializedObject = newobj });
@@ -180,6 +180,22 @@ namespace AlphatronMarineServer.Models
             if (c != null)
             {
                 var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            return "Something went wrong ¯\\_(ツ)_/¯ ";
+        }
+        public static string GetTemp(int object_id)
+        {
+            var c = db.Temp.Where(x=>x.ObjectID == object_id && x.Type == "Equipment").OrderByDescending(g=>g.Date).FirstOrDefault();
+            var d = db.Temp.Where(x => x.ObjectID == object_id && x.Type == "Vessel").OrderByDescending(g => g.Date).FirstOrDefault();
+            if (c !=null)
+            {
+                var encoded = JsonConvert.SerializeObject(c);
+                return encoded;
+            }
+            else if (d != null)
+            {
+                var encoded = JsonConvert.SerializeObject(d);
                 return encoded;
             }
             return "Something went wrong ¯\\_(ツ)_/¯ ";

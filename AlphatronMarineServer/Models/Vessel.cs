@@ -38,15 +38,19 @@ namespace AlphatronMarineServer.Models
         public DateTime AnnualCheckDate { get; set; }
 
         public string Picture { get; set; }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual ICollection<Temp> Temp {
             get
             {
                 return db.Temp.Where(x=> x.ObjectID == IMO).ToList();
             }
         }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual Company Company { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         public virtual Country Country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Equipment> Equipment { get; set; }
